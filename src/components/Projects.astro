@@ -1,5 +1,8 @@
 ---
 import { projects } from '../data/projects.js';
+
+// Extract unique categories from projects for filter tabs
+const categories = ["All Projects", ...new Set(projects.map(project => project.category))];
 ---
 
 <section id="projects" class="section bg-primary text-white">
@@ -14,29 +17,240 @@ import { projects } from '../data/projects.js';
       </p>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {projects.map(project => (
-        <div class="group relative overflow-hidden rounded-lg aspect-[4/5]">
-          <div class={`absolute inset-0 w-full h-full ${project.color}`}></div>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-90"></div>
-          <div class="absolute bottom-0 left-0 p-6">
-            <div class="text-accent text-sm font-medium mb-2">
-              {project.category} &bull; {project.location}
-            </div>
-            <h3 class="text-xl font-serif text-white mb-2">{project.title}</h3>
-            <p class="text-white/80 text-sm max-w-xs hidden group-hover:block transition-all duration-300 ease-in-out">
-              {project.shortDescription}
-            </p>
+    <!-- Project Filters -->
+    <div class="project-filters-container mb-12">
+      <h3 class="sr-only">Filter projects by category</h3>
+      <div class="filter-wrapper relative bg-white/5 rounded-lg p-1.5">
+        <div class="project-filters overflow-x-auto flex items-center">
+          <div class="flex space-x-2 min-w-max">
+            {categories.map((category, index) => (
+              <button 
+                class={`filter-btn px-6 py-3 rounded-full text-white whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-primary ${index === 0 ? 'active' : ''}`}
+                data-category={category === "All Projects" ? "all" : category}
+                aria-pressed={index === 0 ? "true" : "false"}
+              >
+                {category}
+              </button>
+            ))}
           </div>
-          <a href={`/projects/${project.id}`} class="absolute inset-0 z-10" aria-label={`View details of ${project.title}`}></a>
         </div>
-      ))}
+      </div>
+    </div>
+    
+    <div id="project-results" aria-live="polite">
+      <div class="project-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map(project => (
+          <div 
+            class="project-card group relative overflow-hidden rounded-sm shadow-lg transition-all duration-300"
+            data-category={project.category}
+            style="opacity: 1; transform: translateY(0);"
+          >
+            <div class="aspect-[4/5]">
+              <div class={`absolute inset-0 w-full h-full ${project.color}`}></div>
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-90"></div>
+              <div class="absolute bottom-0 left-0 p-6">
+                <div class="text-accent text-sm font-medium mb-2">
+                  <span class="category">{project.category}</span> &bull; <span class="location">{project.location}</span>
+                </div>
+                <h3 class="text-xl font-serif text-white mb-2">{project.title}</h3>
+                <p class="text-white/80 text-sm max-w-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  {project.shortDescription}
+                </p>
+              </div>
+              <a 
+                href={`/projects/${project.id}`} 
+                class="absolute inset-0 z-10 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-inset" 
+                aria-label={`View details of ${project.title}, ${project.category} project in ${project.location}`}
+              ></a>
+            </div>
+          </div>
+        ))}
+      </div>
+      
+      <div class="no-results hidden text-center py-12">
+        <p class="text-xl">No projects match the selected filter.</p>
+        <button class="reset-filters mt-4 text-accent underline hover:no-underline">
+          View all projects
+        </button>
+      </div>
     </div>
     
     <div class="text-center mt-16">
-      <a href="/consultation" class="btn btn-outline text-white border-white hover:bg-white/10">
+      <a href="/consultation" class="btn btn-outline text-white border-white hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-primary">
         Book a Consultation
       </a>
     </div>
   </div>
-</section> 
+</section>
+
+<style>
+  .project-filters {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none;  /* IE and Edge */
+  }
+  
+  .project-filters::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  
+  .filter-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 0.8;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+  }
+  
+  .filter-btn:hover {
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .filter-btn.active {
+    color: var(--color-accent, #10B9C5);
+    opacity: 1;
+    background-color: rgba(16, 185, 197, 0.1);
+    font-weight: 600;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .project-card {
+    backface-visibility: hidden;
+  }
+  
+  /* Improved focus states for accessibility */
+  .filter-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--color-accent, #10B9C5);
+  }
+  
+  /* Animation for the project cards */
+  @media (prefers-reduced-motion: no-preference) {
+    .project-card {
+      transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .project-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+    const noResultsMessage = document.querySelector('.no-results') as HTMLElement;
+    const resetFiltersButton = document.querySelector('.reset-filters');
+    const projectResults = document.getElementById('project-results');
+    
+    // Function to update aria-pressed attributes for accessibility
+    function updateAriaPressed(activeButton: HTMLElement): void {
+      filterButtons.forEach(btn => {
+        (btn as HTMLElement).setAttribute('aria-pressed', 'false');
+      });
+      activeButton.setAttribute('aria-pressed', 'true');
+    }
+    
+    // Filter projects
+    function filterProjects(category: string): void {
+      let visibleCount = 0;
+      
+      projectCards.forEach(card => {
+        const cardCategory = card.getAttribute('data-category');
+        const projectCard = card as HTMLElement;
+        
+        if (category === 'all' || category === cardCategory) {
+          projectCard.style.display = '';
+          // Add a slight delay for a smoother appearance
+          setTimeout(() => {
+            projectCard.style.opacity = '1';
+            projectCard.style.transform = 'translateY(0)';
+          }, 50);
+          visibleCount++;
+        } else {
+          projectCard.style.opacity = '0';
+          projectCard.style.transform = 'translateY(20px)';
+          // Hide after transition
+          setTimeout(() => {
+            projectCard.style.display = 'none';
+          }, 300);
+        }
+      });
+      
+      // Show "no results" message if necessary
+      if (visibleCount === 0) {
+        noResultsMessage.classList.remove('hidden');
+        if (projectResults) {
+          projectResults.setAttribute('aria-label', `No projects found for ${category} category`);
+        }
+      } else {
+        noResultsMessage.classList.add('hidden');
+        if (projectResults) {
+          projectResults.setAttribute('aria-label', `Showing ${visibleCount} projects in ${category} category`);
+        }
+      }
+    }
+    
+    // Set up click handlers for filter buttons
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Update active class
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        
+        // Update aria-pressed for accessibility
+        updateAriaPressed(button as HTMLElement);
+        
+        // Get category and filter projects
+        const category = button.getAttribute('data-category') || 'all';
+        filterProjects(category);
+      });
+    });
+    
+    // Reset filters button functionality
+    if (resetFiltersButton) {
+      resetFiltersButton.addEventListener('click', () => {
+        const allProjectsButton = filterButtons[0] as HTMLElement;
+        allProjectsButton.click();
+      });
+    }
+    
+    // Add keyboard navigation for filter buttons
+    filterButtons.forEach((button, index) => {
+      button.addEventListener('keydown', (e) => {
+        const event = e as KeyboardEvent;
+        const key = event.key;
+        let nextButtonIndex = -1;
+        
+        if (key === 'ArrowRight' || key === 'ArrowDown') {
+          nextButtonIndex = (index + 1) % filterButtons.length;
+          event.preventDefault();
+        } else if (key === 'ArrowLeft' || key === 'ArrowUp') {
+          nextButtonIndex = (index - 1 + filterButtons.length) % filterButtons.length;
+          event.preventDefault();
+        }
+        
+        if (nextButtonIndex !== -1) {
+          (filterButtons[nextButtonIndex] as HTMLElement).focus();
+        }
+      });
+    });
+    
+    // Add smooth transitions to project cards
+    projectCards.forEach(card => {
+      const projectCard = card as HTMLElement;
+      projectCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease';
+    });
+    
+    // Initialize with "All Projects" selected
+    if (filterButtons.length > 0) {
+      (filterButtons[0] as HTMLElement).setAttribute('aria-pressed', 'true');
+    }
+  });
+</script> 
