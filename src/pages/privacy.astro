@@ -1,0 +1,158 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Privacy Policy | IV Architecture & Design Studio"
+  description="Our commitment to protecting your privacy and personal information. Learn how we collect, use, and safeguard your data."
+>
+  <Navbar />
+  
+  <main class="pt-20 pb-16">
+    <!-- Header -->
+    <section class="page-header">
+      <div class="container text-center">
+        <h1 class="page-title text-white">
+          <span class="page-title-accent">Privacy Policy</span>
+          <span class="page-title-bg"></span>
+        </h1>
+        <p class="text-white/80">Last Updated: June 1, 2024</p>
+      </div>
+    </section>
+    
+    <!-- Content -->
+    <section class="py-12">
+      <div class="container max-w-4xl">
+        <div class="prose prose-lg prose-privacy mx-auto">
+          <p>At IV Architecture & Design Studio ("we," "us," or "our"), we value your privacy and are committed to protecting your personal information. This Privacy Policy describes how we collect, use, and disclose information when you visit our website or engage our services.</p>
+          
+          <h2>Information We Collect</h2>
+          
+          <h3>Personal Information</h3>
+          <p>We may collect the following types of personal information:</p>
+          <ul>
+            <li><strong>Contact Information:</strong> Name, email address, phone number, and mailing address</li>
+            <li><strong>Business Information:</strong> Company name, job title, and industry</li>
+            <li><strong>Project Information:</strong> Details about your design preferences, project requirements, budget, timeline, and location</li>
+            <li><strong>Communications:</strong> Records of your interactions with us, including consultation requests, emails, and feedback</li>
+            <li><strong>Account Information:</strong> Login credentials if you create an account on our website</li>
+          </ul>
+          
+          <h3>Automatically Collected Information</h3>
+          <p>When you visit our website, we may automatically collect certain information, including:</p>
+          <ul>
+            <li>IP address and device information</li>
+            <li>Browser type and operating system</li>
+            <li>Pages you view and links you click</li>
+            <li>Referring website or source</li>
+            <li>Time spent on our website and date/time of your visit</li>
+          </ul>
+          
+          <h2>How We Use Your Information</h2>
+          <p>We use the information we collect for the following purposes:</p>
+          <ul>
+            <li>Provide, maintain, and improve our services</li>
+            <li>Process and respond to your inquiries and consultation requests</li>
+            <li>Communicate with you about your project, our services, and related matters</li>
+            <li>Send you marketing communications (with your consent)</li>
+            <li>Personalize your experience on our website</li>
+            <li>Analyze website usage and improve our website performance</li>
+            <li>Comply with legal obligations</li>
+            <li>Protect against fraud and unauthorized transactions</li>
+          </ul>
+          
+          <h2>How We Share Your Information</h2>
+          <p>We may share your personal information with:</p>
+          <ul>
+            <li><strong>Service Providers:</strong> Third-party vendors who perform services on our behalf, such as website hosting, email delivery, and analytics</li>
+            <li><strong>Professional Partners:</strong> Contractors, consultants, and other professionals who assist us in providing our services (with your consent)</li>
+            <li><strong>Legal Compliance:</strong> Government authorities or law enforcement officials when required by law or to protect our rights</li>
+            <li><strong>Business Transfers:</strong> In connection with a merger, acquisition, or sale of all or part of our business</li>
+          </ul>
+          
+          <h2>Your Privacy Rights</h2>
+          <p>Depending on your location, you may have certain rights regarding your personal information, which may include:</p>
+          <ul>
+            <li>Access to your personal information</li>
+            <li>Correction of inaccurate information</li>
+            <li>Deletion of your personal information</li>
+            <li>Restriction of processing</li>
+            <li>Data portability</li>
+            <li>Withdrawal of consent</li>
+          </ul>
+          <p>To exercise these rights, please contact us using the information provided at the end of this policy.</p>
+          
+          <h2>Cookies and Tracking Technologies</h2>
+          <p>We use cookies and similar tracking technologies to improve your browsing experience, analyze website traffic, and personalize content. You can control cookies through your browser settings. However, disabling cookies may limit your ability to use certain features of our website.</p>
+          
+          <h2>Data Security</h2>
+          <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no internet transmission is completely secure, and we cannot guarantee the security of information transmitted to our website.</p>
+          
+          <h2>Data Retention</h2>
+          <p>We retain your personal information for as long as necessary to fulfill the purposes outlined in this Privacy Policy, unless a longer retention period is required or permitted by law.</p>
+          
+          <h2>Children's Privacy</h2>
+          <p>Our website is not directed to children under the age of 16, and we do not knowingly collect personal information from children. If you believe we have inadvertently collected information from a child, please contact us immediately.</p>
+          
+          <h2>Changes to This Privacy Policy</h2>
+          <p>We may update this Privacy Policy from time to time to reflect changes in our practices or legal requirements. We will post the updated policy on our website with a revised "Last Updated" date.</p>
+          
+          <h2>Contact Us</h2>
+          <p>If you have any questions or concerns about this Privacy Policy or our privacy practices, please contact us at:</p>
+          <p>
+            IV Architecture & Design Studio<br>
+            Los Angeles, CA<br>
+            Email: <a href="mailto:privacy@ivarchitecture.com">privacy@ivarchitecture.com</a><br>
+            Phone: +1 (415) 555-2671
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</Layout>
+
+<style>
+  .prose {
+    @apply text-gray-700;
+  }
+  
+  .prose h2 {
+    @apply text-indigo-700 text-2xl font-serif mt-10 mb-4;
+    position: relative;
+    padding-left: 1rem;
+  }
+  
+  .prose h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    width: 4px;
+    @apply bg-indigo-500 rounded;
+  }
+  
+  .prose h3 {
+    @apply text-emerald-700 text-xl font-serif mt-6 mb-3;
+  }
+  
+  .prose ul {
+    @apply list-disc pl-6 mb-6;
+  }
+  
+  .prose li {
+    @apply mb-2;
+  }
+  
+  .prose strong {
+    @apply text-amber-700 font-medium;
+  }
+  
+  .prose a {
+    @apply text-accent font-medium hover:underline border-b border-accent/30 pb-0.5 transition-colors hover:border-accent;
+  }
+</style> 

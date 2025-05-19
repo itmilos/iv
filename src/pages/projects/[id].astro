@@ -1,0 +1,154 @@
+---
+import { projects, getProjectById } from '../../data/projects.js';
+import ProjectLayout from '../../layouts/ProjectLayout.astro';
+
+export async function getStaticPaths() {
+  return projects.map(project => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+
+// Map the project data to the format expected by ProjectLayout
+const projectData = {
+  title: project.title,
+  location: project.location,
+  category: project.category,
+  description: project.fullDescription, // Using fullDescription for the description field
+  features: project.features,
+  year: project.year,
+  client: project.client
+};
+
+const relatedProjects = projects
+  .filter(p => p.id !== project.id)
+  .filter(p => p.category === project.category || p.location === project.location)
+  .slice(0, 3);
+---
+
+<ProjectLayout
+  title={`${project.title} | IV Architecture & Design Studio`}
+  description={project.metaDescription}
+  ogImage={`/images/${project.id}.jpg`}
+  projectData={projectData}
+>
+  <div class="bg-light">
+    <!-- Hero Section -->
+    <section class="relative h-80 md:h-96 overflow-hidden">
+      <div class={`absolute inset-0 ${project.color}`}></div>
+      <div class="absolute inset-0 bg-black/30"></div>
+      <div class="container relative h-full flex items-center z-10">
+        <div class="max-w-2xl">
+          <p class="text-accent font-medium mb-2">{project.category} | {project.location}</p>
+          <h1 class="text-3xl md:text-5xl font-serif text-white mb-4 relative inline-block">
+            <span class="relative z-10">{project.title}</span>
+            <span class="absolute inset-0 bg-accent/20 -rotate-1 transform z-0"></span>
+          </h1>
+          <p class="text-white/90 text-lg md:text-xl max-w-prose">
+            {project.shortDescription}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Content -->
+    <section class="py-16 md:py-24">
+      <div class="container">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-16">
+          <div class="lg:col-span-2">
+            <h2 class="text-2xl md:text-3xl font-serif text-indigo-700 mb-6 relative pl-4">
+              <span class="absolute left-0 top-2 bottom-2 w-1 bg-indigo-500 rounded"></span>
+              Project Overview
+            </h2>
+            <p class="text-gray-700 mb-8">
+              {project.fullDescription}
+            </p>
+            
+            <div class={`w-full h-80 ${project.color} rounded-lg mb-8`}></div>
+            
+            <h2 class="text-2xl md:text-3xl font-serif text-indigo-700 mb-6 relative pl-4">
+              <span class="absolute left-0 top-2 bottom-2 w-1 bg-indigo-500 rounded"></span>
+              Design Features
+            </h2>
+            <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+              {project.features.map(feature => (
+                <li class="flex items-start">
+                  <span class="text-accent mr-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                  </span>
+                  <span class="text-gray-700">{feature}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+          
+          <div>
+            <div class="card sticky top-24">
+              <h3 class="text-xl font-serif text-emerald-700 mb-6">Project Details</h3>
+              
+              <div class="space-y-4 mb-8">
+                <div>
+                  <p class="text-gray-500 text-sm">Client</p>
+                  <p class="font-medium">{project.client}</p>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm">Location</p>
+                  <p class="font-medium">{project.location}</p>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm">Year</p>
+                  <p class="font-medium">{project.year}</p>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm">Category</p>
+                  <p class="font-medium">{project.category}</p>
+                </div>
+              </div>
+              
+              <div class="border-t border-gray-200 pt-6">
+                <h4 class="font-medium mb-4">Interested in this project?</h4>
+                <a href="/consultation" class="btn btn-primary w-full">Book a Consultation</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Related Projects -->
+    {relatedProjects.length > 0 && (
+      <section class="py-16 bg-white">
+        <div class="container">
+          <h2 class="text-2xl md:text-3xl font-serif mb-10 text-center">Related Projects</h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {relatedProjects.map(related => (
+              <a href={`/projects/${related.id}`} class="group block">
+                <div class="relative overflow-hidden rounded-lg aspect-[4/3] mb-4">
+                  <div class={`absolute inset-0 w-full h-full ${related.color} transition-transform duration-500 group-hover:scale-105`}></div>
+                </div>
+                <h3 class="font-serif text-lg group-hover:text-accent transition-colors">{related.title}</h3>
+                <p class="text-gray-600 text-sm">{related.category} | {related.location}</p>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    )}
+    
+    <!-- Call to Action -->
+    <section class="py-16 bg-primary text-white text-center">
+      <div class="container max-w-3xl">
+        <h2 class="text-2xl md:text-3xl font-serif mb-4 invert">Ready to Start Your Project?</h2>
+        <p class="text-white/80 mb-8">
+          Contact us today to discuss how we can transform your space with our European-inspired design approach.
+        </p>
+        <a href="/consultation" class="btn bg-white text-primary hover:bg-white/90">Book a Consultation</a>
+      </div>
+    </section>
+  </div>
+</ProjectLayout> 

@@ -1,54 +1,14 @@
 ---
-const projects = [
-  {
-    title: "Coastal Modern Residence",
-    location: "Malibu, CA",
-    category: "Residential Design",
-    color: "bg-gradient-to-br from-blue-400 to-blue-600",
-    description: "A sleek, minimalist beachfront property that balances luxury with sustainable design principles."
-  },
-  {
-    title: "Urban Loft Renovation",
-    location: "New York, NY",
-    category: "Interior Architecture",
-    color: "bg-gradient-to-br from-gray-700 to-gray-900",
-    description: "Transformation of an industrial space into a sophisticated living environment with custom built-ins."
-  },
-  {
-    title: "Mountain Retreat",
-    location: "Aspen, CO",
-    category: "New Construction",
-    color: "bg-gradient-to-br from-emerald-500 to-emerald-700",
-    description: "A modern interpretation of alpine architecture featuring local materials and panoramic views."
-  },
-  {
-    title: "Artisan Coffee Shop",
-    location: "Portland, OR",
-    category: "Commercial Design",
-    color: "bg-gradient-to-br from-amber-600 to-amber-800",
-    description: "Brand identity and interior design for an upscale coffee experience with European influences."
-  },
-  {
-    title: "Mediterranean Villa",
-    location: "Santa Barbara, CA",
-    category: "Residential Design",
-    color: "bg-gradient-to-br from-orange-400 to-orange-600",
-    description: "A contemporary take on Mediterranean architecture with indoor-outdoor living spaces."
-  },
-  {
-    title: "Luxury Apartment",
-    location: "Miami, FL",
-    category: "Interior Design",
-    color: "bg-gradient-to-br from-purple-500 to-purple-700",
-    description: "High-end interior design for a penthouse with custom furnishings and panoramic ocean views."
-  }
-];
+import { projects } from '../data/projects.js';
 ---
 
 <section id="projects" class="section bg-primary text-white">
   <div class="container">
     <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-serif mb-4">Featured Projects</h2>
+      <h2 class="text-3xl md:text-4xl font-serif mb-4 relative inline-block">
+        <span class="relative z-10">Featured Projects</span>
+        <span class="absolute inset-0 bg-accent/20 -rotate-1 transform z-0"></span>
+      </h2>
       <p class="text-white/80 max-w-3xl mx-auto">
         A selection of our exclusive residential and commercial projects, showcasing our commitment to creating spaces that inspire
       </p>
@@ -65,17 +25,17 @@ const projects = [
             </div>
             <h3 class="text-xl font-serif text-white mb-2">{project.title}</h3>
             <p class="text-white/80 text-sm max-w-xs hidden group-hover:block transition-all duration-300 ease-in-out">
-              {project.description}
+              {project.shortDescription}
             </p>
           </div>
-          <a href="#" class="absolute inset-0 z-10" aria-label={`View details of ${project.title}`}></a>
+          <a href={`/projects/${project.id}`} class="absolute inset-0 z-10" aria-label={`View details of ${project.title}`}></a>
         </div>
       ))}
     </div>
     
     <div class="text-center mt-16">
-      <a href="#contact" class="btn btn-primary">
-        Start Your Project
+      <a href="/consultation" class="btn btn-outline text-white border-white hover:bg-white/10">
+        Book a Consultation
       </a>
     </div>
   </div>

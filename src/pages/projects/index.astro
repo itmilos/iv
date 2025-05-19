@@ -1,0 +1,123 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { projects } from '../../data/projects.js';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+
+// Group projects by category
+const projectsByCategory = projects.reduce((acc, project) => {
+  if (!acc[project.category]) {
+    acc[project.category] = [];
+  }
+  acc[project.category].push(project);
+  return acc;
+}, {});
+
+const categories = Object.keys(projectsByCategory);
+---
+
+<Layout 
+  title="Our Projects | IV Architecture & Design Studio"
+  description="Explore our portfolio of high-end architectural projects featuring European aesthetics and meticulous attention to detail for discerning clients worldwide."
+>
+  <Navbar />
+  
+  <main class="pt-20">
+    <!-- Hero Section -->
+    <section class="page-header">
+      <div class="container text-center">
+        <h1 class="page-title text-white">
+          <span class="page-title-accent">Our Projects</span>
+          <span class="page-title-bg"></span>
+        </h1>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto">
+          A showcase of our architectural design work, featuring exclusive residential and commercial projects around the world.
+        </p>
+      </div>
+    </section>
+    
+    <!-- Filter Controls -->
+    <section class="bg-light py-8 sticky top-0 z-30 shadow-sm">
+      <div class="container">
+        <div class="flex items-center justify-center overflow-x-auto pb-2">
+          <a href="#all" class="px-5 py-2 rounded-full font-medium text-primary bg-white shadow-sm mx-2 hover:bg-accent hover:text-white transition-colors">All Projects</a>
+          {categories.map(category => (
+            <a 
+              href={`#${category.toLowerCase().replace(/\s+/g, '-')}`}
+              class="px-5 py-2 rounded-full font-medium text-primary bg-white shadow-sm mx-2 hover:bg-accent hover:text-white transition-colors"
+            >
+              {category}
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+    
+    <!-- All Projects -->
+    <section id="all" class="py-16 bg-white">
+      <div class="container">
+        <h2 class="text-3xl font-serif text-indigo-700 mb-12 text-center relative">
+          <span class="relative z-10">All Projects</span>
+          <span class="absolute left-1/2 -translate-x-1/2 bottom-0 w-24 h-1 bg-indigo-500/30"></span>
+        </h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map(project => (
+            <a href={`/projects/${project.id}`} class="group block">
+              <div class="relative overflow-hidden rounded-lg aspect-square mb-4">
+                <div class={`absolute inset-0 w-full h-full ${project.color} transition-transform duration-500 group-hover:scale-105`}></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80"></div>
+                <div class="absolute bottom-0 left-0 p-6">
+                  <span class="text-accent text-sm font-medium">{project.category}</span>
+                  <h3 class="text-xl font-serif text-white">{project.title}</h3>
+                  <span class="text-white/70 text-sm">{project.location}</span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+    
+    <!-- Projects by Category -->
+    {categories.map(category => (
+      <section id={category.toLowerCase().replace(/\s+/g, '-')} class="py-16 bg-light">
+        <div class="container">
+          <h2 class="text-3xl font-serif text-teal-700 mb-12 text-center relative">
+            <span class="relative z-10">{category}</span>
+            <span class="absolute left-1/2 -translate-x-1/2 bottom-0 w-24 h-1 bg-teal-500/30"></span>
+          </h2>
+          
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projectsByCategory[category].map(project => (
+              <a href={`/projects/${project.id}`} class="group block">
+                <div class="relative overflow-hidden rounded-lg aspect-square mb-4">
+                  <div class={`absolute inset-0 w-full h-full ${project.color} transition-transform duration-500 group-hover:scale-105`}></div>
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80"></div>
+                  <div class="absolute bottom-0 left-0 p-6">
+                    <span class="text-accent text-sm font-medium">{project.category}</span>
+                    <h3 class="text-xl font-serif text-white">{project.title}</h3>
+                    <span class="text-white/70 text-sm">{project.location}</span>
+                  </div>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))}
+    
+    <!-- Call to Action -->
+    <section class="py-16 bg-primary text-white text-center">
+      <div class="container max-w-3xl">
+        <h2 class="text-2xl md:text-3xl font-serif mb-4">Inspired by Our Work?</h2>
+        <p class="text-white/80 mb-8">
+          Ready to transform your space with our European-inspired approach to architecture and design?
+        </p>
+        <a href="/consultation" class="btn btn-outline bg-transparent border-white text-white hover:bg-white hover:text-primary">Book a Consultation</a>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</Layout> 

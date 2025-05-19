@@ -1,0 +1,651 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+// Budget options
+const budgetOptions = [
+  { value: "< $50,000", label: "Under $50,000" },
+  { value: "$50,000 - $100,000", label: "$50,000 - $100,000" },
+  { value: "$100,000 - $250,000", label: "$100,000 - $250,000" },
+  { value: "$250,000 - $500,000", label: "$250,000 - $500,000" },
+  { value: "$500,000 - $1,000,000", label: "$500,000 - $1,000,000" },
+  { value: "> $1,000,000", label: "Over $1,000,000" },
+  { value: "Not sure yet", label: "Not sure yet" }
+];
+
+// Project types
+const projectTypes = [
+  { value: "new-construction", label: "New Construction" },
+  { value: "renovation", label: "Full Renovation" },
+  { value: "interior-design", label: "Interior Design" },
+  { value: "kitchen-bath", label: "Kitchen & Bath" },
+  { value: "furniture-selection", label: "Furniture Selection" },
+  { value: "consultation", label: "Design Consultation" },
+  { value: "other", label: "Other" }
+];
+
+// Design styles for inspiration
+const designStyles = [
+  { value: "european-modern", label: "European Modern", color: "bg-gradient-to-br from-blue-400 to-blue-600" },
+  { value: "scandinavian", label: "Scandinavian", color: "bg-gradient-to-br from-gray-200 to-gray-400" },
+  { value: "mediterranean", label: "Mediterranean", color: "bg-gradient-to-br from-orange-400 to-orange-600" },
+  { value: "minimalist", label: "Minimalist", color: "bg-gradient-to-br from-neutral-300 to-neutral-500" },
+  { value: "industrial", label: "Industrial", color: "bg-gradient-to-br from-gray-700 to-gray-900" },
+  { value: "mid-century", label: "Mid-Century Modern", color: "bg-gradient-to-br from-amber-500 to-amber-700" }
+];
+---
+
+<Layout
+  title="Book a Consultation | IV Architecture & Design Studio"
+  description="Schedule a personal consultation with our design team to discuss your project, budget, and design preferences."
+>
+  <Navbar />
+  
+  <main class="pt-20 pb-16">
+    <!-- Hero Section -->
+    <section class="page-header">
+      <div class="container text-center">
+        <h1 class="page-title text-white">
+          <span class="page-title-accent">Book a Consultation</span>
+          <span class="page-title-bg"></span>
+        </h1>
+        <p class="text-xl text-white/80 max-w-2xl mx-auto">
+          Take the first step toward transforming your space. Tell us about your project vision and preferences.
+        </p>
+      </div>
+    </section>
+    
+    <!-- Multi-step Form -->
+    <section class="py-16">
+      <div class="container max-w-4xl">
+        <div class="card shadow-lg">
+          <!-- Progress Indicator -->
+          <div class="flex justify-between mb-12" id="progress-bar">
+            <div class="step active flex flex-col items-center">
+              <div class="step-circle">1</div>
+              <span class="text-sm mt-2">Project Details</span>
+            </div>
+            <div class="h-px bg-gray-300 flex-1 self-center mx-4"></div>
+            <div class="step flex flex-col items-center">
+              <div class="step-circle">2</div>
+              <span class="text-sm mt-2">Design Preferences</span>
+            </div>
+            <div class="h-px bg-gray-300 flex-1 self-center mx-4"></div>
+            <div class="step flex flex-col items-center">
+              <div class="step-circle">3</div>
+              <span class="text-sm mt-2">Contact Information</span>
+            </div>
+          </div>
+          
+          <!-- Form Steps -->
+          <form id="consultation-form">
+            <!-- Step 1: Project Details -->
+            <div class="step-content" id="step-1">
+              <h2 class="text-2xl font-serif text-indigo-700 mb-6">Project Details</h2>
+              
+              <div class="space-y-6">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">What type of project are you planning?</label>
+                  <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {projectTypes.map(type => (
+                      <label class="project-type-option border border-gray-300 rounded-lg p-4 cursor-pointer hover:border-accent">
+                        <input type="radio" name="projectType" value={type.value} class="sr-only" />
+                        <span class="block text-center">{type.label}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                
+                <div>
+                  <label for="projectDescription" class="block text-sm font-medium text-gray-700 mb-2">Briefly describe your project</label>
+                  <textarea 
+                    id="projectDescription" 
+                    name="projectDescription" 
+                    rows="4" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                    placeholder="Tell us about your space, what you're looking to achieve, and any specific requirements..."
+                  ></textarea>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">What is your estimated budget range?</label>
+                  <select 
+                    name="budget" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                  >
+                    <option value="" disabled selected>Select a budget range</option>
+                    {budgetOptions.map(option => (
+                      <option value={option.value}>{option.label}</option>
+                    ))}
+                  </select>
+                </div>
+                
+                <div>
+                  <label for="timeline" class="block text-sm font-medium text-gray-700 mb-2">When would you like to start this project?</label>
+                  <select 
+                    id="timeline" 
+                    name="timeline" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                  >
+                    <option value="" disabled selected>Select a timeframe</option>
+                    <option value="immediately">As soon as possible</option>
+                    <option value="1-3months">Within 1-3 months</option>
+                    <option value="3-6months">Within 3-6 months</option>
+                    <option value="6-12months">Within 6-12 months</option>
+                    <option value="future">Just exploring for now</option>
+                  </select>
+                </div>
+              </div>
+              
+              <div class="mt-8 flex justify-end">
+                <button type="button" id="next-1" class="btn btn-primary">Next: Design Preferences</button>
+              </div>
+            </div>
+            
+            <!-- Step 2: Design Preferences -->
+            <div class="step-content hidden" id="step-2">
+              <h2 class="text-2xl font-serif text-indigo-700 mb-6">Design Preferences</h2>
+              
+              <div class="space-y-8">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">Select design styles that inspire you</label>
+                  <p class="text-sm text-gray-500 mb-4">Choose all styles that resonate with your vision</p>
+                  
+                  <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                    {designStyles.map(style => (
+                      <label class="design-style-card cursor-pointer">
+                        <input type="checkbox" name="designStyle" value={style.value} class="sr-only" />
+                        <div class="card-inner overflow-hidden rounded-lg">
+                          <div class={`h-32 ${style.color}`}></div>
+                          <div class="p-3 bg-white border border-gray-200 rounded-b-lg">
+                            <h3 class="font-medium text-center">{style.label}</h3>
+                          </div>
+                        </div>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-3">Share inspirational images or links</label>
+                  
+                  <div class="space-y-6">
+                    <div>
+                      <p class="block text-sm text-gray-500 mb-3">Upload images that reflect your style preferences</p>
+                      <div class="flex items-center justify-center w-full">
+                        <label class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors">
+                          <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <svg class="w-8 h-8 mb-3 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <p class="mb-1 text-sm text-gray-500">Drag and drop files here, or click to browse</p>
+                            <p class="text-xs text-gray-500">PNG, JPG, GIF (max 8 files, 10MB each)</p>
+                          </div>
+                          <input id="image-upload" name="images" type="file" multiple accept="image/*" class="hidden" />
+                        </label>
+                      </div>
+                      <div id="image-preview" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mt-4"></div>
+                      
+                      <div class="mt-3 flex items-start" id="image-help-text">
+                        <div class="flex items-center h-5 pt-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                          </svg>
+                        </div>
+                        <p class="ml-2 text-xs text-gray-500">
+                          Include images of spaces, materials, or design elements that resonate with your vision.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label for="inspirationLinks" class="block text-sm font-medium text-gray-700 mb-2">Share inspiration links</label>
+                      <p class="text-sm text-gray-500 mb-2">Add links to designs that inspire you (Pinterest, Houzz, Instagram, etc.)</p>
+                      
+                      <div id="links-container" class="space-y-3 mb-3">
+                        <div class="link-input-group flex items-center gap-2">
+                          <div class="flex-1 relative">
+                            <input 
+                              type="url" 
+                              name="inspirationLinks[]" 
+                              placeholder="https://www.example.com/inspiration"
+                              class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                            />
+                            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd" />
+                              </svg>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <button 
+                        type="button" 
+                        id="add-link-btn" 
+                        class="flex items-center text-sm font-medium text-accent hover:text-accent/80"
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd" />
+                        </svg>
+                        Add another link
+                      </button>
+                      
+                      <div class="mt-3 flex items-start">
+                        <div class="flex items-center h-5 pt-1">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                          </svg>
+                        </div>
+                        <p class="ml-2 text-xs text-gray-500">
+                          You can also mention specific elements you love from these references in the notes section below.
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label for="additionalNotes" class="block text-sm font-medium text-gray-700 mb-2">Additional notes about your style preferences</label>
+                      <textarea 
+                        id="additionalNotes" 
+                        name="additionalNotes" 
+                        rows="3" 
+                        placeholder="Tell us more about specific elements, materials, or aesthetics you're drawn to..."
+                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-8 flex justify-between">
+                <button type="button" id="prev-2" class="btn bg-gray-200 text-gray-800 hover:bg-gray-300">Back</button>
+                <button type="button" id="next-2" class="btn btn-primary">Next: Contact Information</button>
+              </div>
+            </div>
+            
+            <!-- Step 3: Contact Information -->
+            <div class="step-content hidden" id="step-3">
+              <h2 class="text-2xl font-serif text-indigo-700 mb-6">Contact Information</h2>
+              
+              <div class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                    <input 
+                      type="text" 
+                      id="firstName" 
+                      name="firstName" 
+                      class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                    <input 
+                      type="text" 
+                      id="lastName" 
+                      name="lastName" 
+                      class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                    <input 
+                      type="email" 
+                      id="email" 
+                      name="email" 
+                      class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                      required
+                    />
+                  </div>
+                  
+                  <div>
+                    <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                    <input 
+                      type="tel" 
+                      id="phone" 
+                      name="phone" 
+                      class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                      required
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Project Location</label>
+                  <input 
+                    type="text" 
+                    id="location" 
+                    name="location" 
+                    placeholder="City, State/Province, Country"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                    required
+                  />
+                </div>
+                
+                <div>
+                  <label for="referral" class="block text-sm font-medium text-gray-700 mb-1">How did you hear about us?</label>
+                  <select 
+                    id="referral" 
+                    name="referral" 
+                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                  >
+                    <option value="" disabled selected>Select an option</option>
+                    <option value="google">Google Search</option>
+                    <option value="instagram">Instagram</option>
+                    <option value="pinterest">Pinterest</option>
+                    <option value="referral">Referral from Friend/Family</option>
+                    <option value="portfolio">Online Portfolio/Gallery</option>
+                    <option value="other">Other</option>
+                  </select>
+                </div>
+                
+                <div class="flex items-start mt-6">
+                  <div class="flex items-center h-5">
+                    <input 
+                      id="privacy" 
+                      name="privacy" 
+                      type="checkbox" 
+                      class="h-4 w-4 text-accent border-gray-300 rounded focus:ring-accent" 
+                      required
+                    />
+                  </div>
+                  <div class="ml-3 text-sm">
+                    <label for="privacy" class="text-gray-700">
+                      I agree to the <a href="/privacy" class="text-accent hover:underline" target="_blank">privacy policy</a> and consent to being contacted about my inquiry.
+                    </label>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="mt-8 flex justify-between">
+                <button type="button" id="prev-3" class="btn bg-gray-200 text-gray-800 hover:bg-gray-300">Back</button>
+                <button type="submit" class="btn btn-primary">Submit Consultation Request</button>
+              </div>
+            </div>
+            
+            <!-- Success Message (initially hidden) -->
+            <div class="hidden text-center py-8" id="success-message">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-green-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h2 class="text-2xl font-serif mb-4">Thank You!</h2>
+              <p class="text-gray-600 mb-6">
+                Your consultation request has been submitted successfully. Our team will review your information and contact you within 24-48 hours to schedule your consultation.
+              </p>
+              <a href="/" class="btn btn-primary">Return to Homepage</a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <Footer />
+</Layout>
+
+<style>
+  .step-circle {
+    @apply h-10 w-10 rounded-full bg-gray-200 text-gray-700 flex items-center justify-center font-medium border border-gray-300;
+    transition: all 0.3s ease;
+  }
+  
+  .step.active .step-circle {
+    @apply bg-accent text-white border-accent;
+  }
+  
+  .step.completed .step-circle {
+    @apply bg-green-500 text-white border-green-500;
+  }
+  
+  .project-type-option input:checked + span {
+    @apply text-accent font-medium;
+  }
+  
+  .project-type-option:has(input:checked) {
+    @apply border-accent bg-accent/5;
+  }
+  
+  .design-style-card input:checked + .card-inner {
+    @apply ring-2 ring-accent;
+  }
+  
+  /* When an image is uploaded, show a blue border on the preview */
+  .image-preview-item {
+    @apply relative border border-gray-200 rounded-lg overflow-hidden;
+    aspect-ratio: 1 / 1;
+  }
+  
+  .image-preview-item img {
+    @apply w-full h-full object-cover;
+  }
+  
+  .remove-image {
+    @apply absolute top-1 right-1 bg-white/80 rounded-full p-1 text-gray-600 hover:text-red-500 transition-colors;
+  }
+  
+  /* Form validation styles */
+  .input-error {
+    @apply border-red-500 focus:ring-red-500;
+  }
+  
+  .error-message {
+    @apply text-sm text-red-500 mt-1;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('consultation-form') as HTMLFormElement | null;
+    const progressSteps = document.querySelectorAll('#progress-bar .step');
+    const stepContents = document.querySelectorAll('.step-content');
+    const successMessage = document.getElementById('success-message');
+    
+    // Navigation buttons
+    const nextButton1 = document.getElementById('next-1') as HTMLButtonElement | null;
+    const prevButton2 = document.getElementById('prev-2') as HTMLButtonElement | null;
+    const nextButton2 = document.getElementById('next-2') as HTMLButtonElement | null;
+    const prevButton3 = document.getElementById('prev-3') as HTMLButtonElement | null;
+    
+    // For project type selection
+    const projectTypeOptions = document.querySelectorAll('.project-type-option input');
+    projectTypeOptions.forEach(option => {
+      option.addEventListener('change', () => {
+        document.querySelectorAll('.project-type-option').forEach(opt => {
+          opt.classList.remove('border-accent', 'border-2');
+          const inputElement = opt.querySelector('input');
+          if (inputElement && inputElement.checked) {
+            opt.classList.add('border-accent', 'border-2');
+          }
+        });
+      });
+    });
+    
+    // For design style selection
+    const designStyleOptions = document.querySelectorAll('.design-style-card input');
+    designStyleOptions.forEach(option => {
+      option.addEventListener('change', () => {
+        const card = option.closest('.design-style-card')?.querySelector('.card-inner');
+        if ((option as HTMLInputElement).checked && card) {
+          card.classList.add('ring-2', 'ring-accent');
+        } else if (card) {
+          card.classList.remove('ring-2', 'ring-accent');
+        }
+      });
+    });
+    
+    // Links management
+    const linksContainer = document.getElementById('links-container');
+    const addLinkBtn = document.getElementById('add-link-btn');
+    
+    if (addLinkBtn && linksContainer) {
+      addLinkBtn.addEventListener('click', () => {
+        const newLinkGroup = document.createElement('div');
+        newLinkGroup.className = 'link-input-group flex items-center gap-2';
+        newLinkGroup.innerHTML = `
+          <div class="flex-1 relative">
+            <input 
+              type="url" 
+              name="inspirationLinks[]" 
+              placeholder="https://www.example.com/inspiration"
+              class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+            />
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd" />
+              </svg>
+            </span>
+          </div>
+          <button type="button" class="remove-link text-gray-400 hover:text-red-500 transition-colors">
+            <span class="sr-only">Remove</span>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+            </svg>
+          </button>
+        `;
+        
+        linksContainer.appendChild(newLinkGroup);
+        
+        // Add event listener to the remove button
+        const removeBtn = newLinkGroup.querySelector('.remove-link');
+        if (removeBtn) {
+          removeBtn.addEventListener('click', () => {
+            newLinkGroup.remove();
+          });
+        }
+        
+        // Focus the new input
+        const newInput = newLinkGroup.querySelector('input');
+        if (newInput) {
+          newInput.focus();
+        }
+      });
+    }
+    
+    // Image upload preview
+    const imageUpload = document.getElementById('image-upload') as HTMLInputElement | null;
+    const imagePreview = document.getElementById('image-preview');
+    const imageHelpText = document.getElementById('image-help-text');
+    
+    if (imageUpload && imagePreview) {
+      imageUpload.addEventListener('change', function() {
+        // Clear the preview
+        imagePreview.innerHTML = '';
+        
+        // Hide help text if we have images
+        if (this.files && this.files.length > 0) {
+          imageHelpText?.classList.add('hidden');
+        } else {
+          imageHelpText?.classList.remove('hidden');
+        }
+        
+        if (!this.files) return;
+        
+        for (let i = 0; i < this.files.length; i++) {
+          if (i >= 8) {
+            // Add a message about the limit
+            const limitMessage = document.createElement('div');
+            limitMessage.className = 'col-span-full text-xs text-amber-600 mt-1';
+            limitMessage.textContent = `Only the first 8 images will be uploaded. You selected ${this.files.length} files.`;
+            imagePreview.appendChild(limitMessage);
+            break;
+          }
+          
+          const file = this.files[i];
+          if (!file.type.startsWith('image/')) continue;
+          
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            if (!e.target || !e.target.result) return;
+            
+            const div = document.createElement('div');
+            div.className = 'relative group';
+            div.innerHTML = `
+              <div class="aspect-square rounded-lg overflow-hidden border border-gray-200">
+                <img src="${e.target.result}" class="w-full h-full object-cover" alt="Preview image ${i+1}" />
+                <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                  <button type="button" class="remove-image bg-white/90 text-red-500 rounded-full p-1.5 hover:bg-white transition-colors" data-index="${i}">
+                    <span class="sr-only">Remove</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <p class="text-xs text-gray-500 mt-1 truncate">${file.name}</p>
+            `;
+            imagePreview.appendChild(div);
+            
+            // Add remove button functionality
+            const removeBtn = div.querySelector('.remove-image');
+            if (removeBtn) {
+              removeBtn.addEventListener('click', function() {
+                div.remove();
+                // Show help text if no images remain
+                if (imagePreview.children.length === 0) {
+                  imageHelpText?.classList.remove('hidden');
+                }
+              });
+            }
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+    }
+    
+    // Step navigation
+    function goToStep(step: number) {
+      stepContents.forEach((content, index) => {
+        content.classList.toggle('hidden', index !== step - 1);
+      });
+      
+      progressSteps.forEach((progressStep, index) => {
+        if (index < step - 1) {
+          progressStep.classList.add('completed');
+          progressStep.classList.remove('active');
+        } else if (index === step - 1) {
+          progressStep.classList.add('active');
+          progressStep.classList.remove('completed');
+        } else {
+          progressStep.classList.remove('active', 'completed');
+        }
+      });
+      
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    // Button event listeners
+    nextButton1?.addEventListener('click', () => goToStep(2));
+    prevButton2?.addEventListener('click', () => goToStep(1));
+    nextButton2?.addEventListener('click', () => goToStep(3));
+    prevButton3?.addEventListener('click', () => goToStep(2));
+    
+    // Form submission
+    form?.addEventListener('submit', (e) => {
+      e.preventDefault();
+      
+      // Here you would typically send the form data to your server
+      // For this demo, we'll just show the success message
+      
+      // Hide the form
+      stepContents.forEach(content => {
+        content.classList.add('hidden');
+      });
+      
+      // Show success message
+      successMessage?.classList.remove('hidden');
+      
+      // Mark all steps as completed
+      progressSteps.forEach(step => {
+        step.classList.add('completed');
+        step.classList.remove('active');
+      });
+    });
+  });
+</script> 

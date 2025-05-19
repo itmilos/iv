@@ -34,20 +34,22 @@ const colorBoxes = [
 ];
 ---
 
-<section id="about" class="section bg-white">
+<section id="about" class="section bg-gradient-to-b from-white via-blue-50/30 to-indigo-50/20">
   <div class="container">
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
       <div>
-        <h2 class="text-3xl md:text-4xl font-serif mb-6">Our Philosophy</h2>
-        <p class="text-gray-600 mb-8">
+        <h2 class="text-with-side-border mb-6">
+          Our Philosophy
+        </h2>
+        <p class="mb-8">
           At IV Architecture & Design Studio, we elevate everyday life through intentional design that inspires people. Our approach combines European aesthetics with American lifestyle functionality, creating spaces that are both beautiful and practical.
         </p>
-        <p class="text-gray-600 mb-8">
+        <p class="mb-8">
           Founded on the principle that exceptional design should be accessible yet exclusive, we offer a comprehensive vision for every project. Whether working with coastal couples, creative professionals, or luxury developers, we deliver personalized, high-end design solutions.
         </p>
         <div class="flex flex-wrap gap-3 mt-8">
           {values.map(value => (
-            <span class="px-4 py-2 bg-light rounded-full text-primary text-sm font-medium">
+            <span class="px-4 py-2 bg-light rounded-full text-primary text-sm font-medium hover:bg-accent/10 transition-colors cursor-default">
               {value.label}
             </span>
           ))}
@@ -67,12 +69,14 @@ const colorBoxes = [
     </div>
     
     <div class="mt-24">
-      <h3 class="text-2xl md:text-3xl font-serif mb-8 text-center">Our Core Values</h3>
+      <h3 class="text-center mb-8 text-accent-underline">
+        <span>Our Core Values</span>
+      </h3>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {values.map(value => (
           <div class="card text-center hover:shadow-lg transition-shadow">
-            <h4 class="text-xl font-serif mb-3 text-primary">{value.label}</h4>
-            <p class="text-gray-600">{value.description}</p>
+            <h4 class="mb-3">{value.label}</h4>
+            <p>{value.description}</p>
           </div>
         ))}
       </div>

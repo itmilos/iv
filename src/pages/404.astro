@@ -8,7 +8,10 @@ import Layout from '../layouts/Layout.astro';
 >
   <div class="min-h-screen flex flex-col items-center justify-center bg-light px-4">
     <div class="text-center max-w-xl">
-      <h1 class="font-serif text-6xl text-primary mb-6">404</h1>
+      <h1 class="font-serif text-6xl text-indigo-700 mb-6 relative inline-block">
+        <span class="relative z-10">404</span>
+        <span class="absolute inset-0 bg-accent/10 -rotate-1 transform z-0"></span>
+      </h1>
       <h2 class="font-serif text-3xl text-primary mb-6">Page Not Found</h2>
       <p class="text-gray-600 mb-10">
         The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
@@ -20,10 +23,10 @@ import Layout from '../layouts/Layout.astro';
         <div class="mt-10 text-gray-500">
           <p>Looking for something specific?</p>
           <div class="flex justify-center space-x-6 mt-6">
-            <a href="#services" class="text-accent hover:underline">Services</a>
-            <a href="#projects" class="text-accent hover:underline">Projects</a>
-            <a href="#about" class="text-accent hover:underline">About</a>
-            <a href="#contact" class="text-accent hover:underline">Contact</a>
+            <a href="#services" class="text-accent font-medium hover:underline border-b border-accent/30 pb-0.5 transition-colors hover:border-accent">Services</a>
+            <a href="#projects" class="text-accent font-medium hover:underline border-b border-accent/30 pb-0.5 transition-colors hover:border-accent">Projects</a>
+            <a href="#about" class="text-accent font-medium hover:underline border-b border-accent/30 pb-0.5 transition-colors hover:border-accent">About</a>
+            <a href="#contact" class="text-accent font-medium hover:underline border-b border-accent/30 pb-0.5 transition-colors hover:border-accent">Contact</a>
           </div>
         </div>
       </div>

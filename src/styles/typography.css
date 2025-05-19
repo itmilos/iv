@@ -1,0 +1,170 @@
+/* Typography styles for IV Architecture */
+@layer components {
+  /* Prose styles for long-form content */
+  .prose {
+    @apply text-gray-700 max-w-prose mx-auto;
+  }
+  
+  .prose p {
+    @apply my-6;
+  }
+  
+  .prose h2 {
+    @apply text-2xl font-serif mt-10 mb-4 relative;
+    padding-left: 1rem;
+  }
+  
+  .prose h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    width: 4px;
+    @apply rounded;
+  }
+  
+  .prose h3 {
+    @apply text-xl font-serif mt-6 mb-3;
+  }
+  
+  .prose ul {
+    @apply list-disc pl-6 mb-6;
+  }
+  
+  .prose li {
+    @apply mb-2;
+  }
+  
+  .prose a {
+    @apply font-medium border-b pb-0.5 transition-colors;
+  }
+  
+  /* Legal pages (Privacy and Terms) */
+  .prose-privacy h2 {
+    @apply text-indigo-700;
+  }
+  
+  .prose-privacy h2::before {
+    @apply bg-indigo-500;
+  }
+  
+  .prose-privacy h3 {
+    @apply text-emerald-700;
+  }
+  
+  .prose-privacy strong {
+    @apply text-amber-700 font-medium;
+  }
+  
+  .prose-privacy a {
+    @apply text-accent hover:underline border-accent/30 hover:border-accent;
+  }
+  
+  .prose-terms h2 {
+    @apply text-teal-700;
+  }
+  
+  .prose-terms h2::before {
+    @apply bg-teal-500;
+  }
+  
+  .prose-terms h3 {
+    @apply text-purple-700;
+  }
+  
+  .prose-terms strong {
+    @apply text-rose-700 font-medium;
+  }
+  
+  .prose-terms a {
+    @apply text-accent hover:underline border-accent/30 hover:border-accent;
+  }
+  
+  /* Headings */
+  .page-title {
+    @apply text-4xl md:text-5xl font-serif mb-2 relative inline-block;
+  }
+  
+  .page-title-accent {
+    @apply relative z-10;
+  }
+  
+  .page-title-bg {
+    @apply absolute inset-0 bg-accent/20 -rotate-1 transform z-0;
+  }
+}
+
+/* Typography enhancements for IV Architecture */
+@layer base {
+  /* Base typography */
+  html {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  /* Better paragraph styling */
+  p {
+    @apply text-gray-600 leading-relaxed text-base md:text-lg font-normal;
+    letter-spacing: 0.015em;
+  }
+  
+  /* Heading styles with the theme color scheme */
+  h1 {
+    @apply text-3xl md:text-5xl font-serif text-primary font-medium leading-tight;
+  }
+  
+  h2 {
+    @apply text-2xl md:text-4xl font-serif text-indigo-700 font-medium leading-tight;
+  }
+  
+  h3 {
+    @apply text-xl md:text-2xl font-serif text-teal-700 font-medium leading-snug;
+  }
+  
+  h4 {
+    @apply text-lg md:text-xl font-serif text-emerald-700 font-medium;
+  }
+}
+
+@layer components {
+  /* Enhanced link styling */
+  a:not(.btn):not([class*="nav"]) {
+    @apply text-accent font-medium relative;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: all 0.2s ease-in-out;
+    padding-bottom: 0.125rem;
+  }
+  
+  a:not(.btn):not([class*="nav"]):hover {
+    @apply text-teal-700;
+    border-bottom-color: currentColor;
+  }
+  
+  /* Text decoration elements */
+  .text-accent-underline {
+    @apply relative inline-block;
+  }
+  
+  .text-accent-underline::after {
+    @apply absolute bottom-0 left-0 w-full h-1 bg-accent/30 -z-10;
+    content: '';
+  }
+  
+  /* Text with side border accents */
+  .text-with-side-border {
+    @apply pl-4 relative;
+  }
+  
+  .text-with-side-border::before {
+    @apply absolute left-0 top-2 bottom-2 w-1 bg-indigo-500 rounded;
+    content: '';
+  }
+}
+
+/* Card styles */
+.card {
+  @apply bg-white p-6 rounded-lg shadow-md transition-all duration-300;
+} 

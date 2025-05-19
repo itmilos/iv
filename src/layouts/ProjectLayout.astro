@@ -1,0 +1,108 @@
+---
+import '../styles/global.css';
+import StructuredData from '../pages/structured-data.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+	title: string;
+	description: string;
+	ogImage?: string;
+	projectData?: {
+		title: string;
+		location: string;
+		category: string;
+		description: string;
+		features?: string[];
+		year?: string;
+		client?: string;
+	}
+}
+
+const {
+	title,
+	description,
+	ogImage = "/images/og-image.jpg",
+	projectData
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+
+// Keywords for SEO - customize based on project
+const keywords = `architecture, ${projectData?.category.toLowerCase() || 'interior design'}, ${projectData?.location || 'high-end design'}, European aesthetics, luxury design, ${projectData?.title.toLowerCase().replace(/\s+/g, ', ')}`;
+
+// Structured data for this specific project
+const projectStructuredData = projectData ? {
+	"@context": "https://schema.org",
+	"@type": "CreativeWork",
+	"name": projectData.title,
+	"description": projectData.description,
+	"image": ogImage,
+	"creator": {
+		"@type": "Organization",
+		"name": "IV Architecture & Design Studio",
+		"url": "https://ivarchitecture.com"
+	},
+	"locationCreated": projectData.location,
+	"genre": projectData.category,
+	"datePublished": projectData.year || new Date().getFullYear().toString()
+} : null;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		
+		<!-- Primary Meta Tags -->
+		<title>{title}</title>
+		<meta name="title" content={title} />
+		<meta name="description" content={description} />
+		<meta name="keywords" content={keywords} />
+		<link rel="canonical" href={canonicalURL} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={Astro.url} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:image" content={ogImage} />
+		
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={Astro.url} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		<meta property="twitter:image" content={ogImage} />
+		
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+		
+		<!-- Structured Data -->
+		{projectStructuredData && (
+			<script type="application/ld+json" set:html={JSON.stringify(projectStructuredData)} />
+		)}
+		<StructuredData />
+	</head>
+	<body>
+		<Navbar />
+		<main class="pt-20">
+			<slot />
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style is:global>
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style> 
