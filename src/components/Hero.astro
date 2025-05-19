@@ -1,0 +1,54 @@
+---
+interface Props {
+  title?: string;
+  subtitle?: string;
+}
+
+const { 
+  title = "European Aesthetics Meets American Lifestyle", 
+  subtitle = "Elevating everyday life through intentional design" 
+} = Astro.props;
+---
+
+<section class="relative h-screen flex items-center justify-center overflow-hidden">
+  <!-- Background with Color Gradient Instead of Image -->
+  <div class="absolute inset-0 z-0">
+    <div class="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-primary z-10"></div>
+  </div>
+  
+  <!-- Content -->
+  <div class="container relative z-20 text-center px-4">
+    <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl text-white font-medium leading-tight mb-6">
+      {title}
+    </h1>
+    <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-10">
+      {subtitle}
+    </p>
+    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+      <a href="#services" class="btn btn-primary">
+        Explore Our Services
+      </a>
+      <a href="#contact" class="btn bg-transparent border-2 border-white text-white hover:bg-white/10">
+        Get In Touch
+      </a>
+    </div>
+  </div>
+  
+  <!-- Scroll Indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      class="h-8 w-8 text-white" 
+      fill="none" 
+      viewBox="0 0 24 24" 
+      stroke="currentColor"
+    >
+      <path 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        stroke-width="2" 
+        d="M19 14l-7 7m0 0l-7-7m7 7V3" 
+      />
+    </svg>
+  </div>
+</section> 

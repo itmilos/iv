@@ -1,0 +1,115 @@
+---
+const navItems = [
+  { label: 'Home', url: '/' },
+  { label: 'Services', url: '#services' },
+  { label: 'Projects', url: '#projects' },
+  { label: 'About', url: '#about' },
+  { label: 'Contact', url: '#contact' }
+];
+---
+
+<header class="fixed w-full z-50 transition-all duration-300" id="navbar">
+  <div class="container mx-auto px-4 py-4">
+    <nav class="flex justify-between items-center">
+      <!-- Logo -->
+      <a href="/" class="text-2xl font-serif font-medium text-white">IV<span class="text-accent">.</span></a>
+      
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        {navItems.map(item => (
+          <a 
+            href={item.url} 
+            class="text-white hover:text-accent transition-colors duration-300"
+          >
+            {item.label}
+          </a>
+        ))}
+        <a 
+          href="#contact" 
+          class="btn btn-primary text-sm px-4 py-2"
+        >
+          Book a Consultation
+        </a>
+      </div>
+      
+      <!-- Mobile Menu Button -->
+      <button 
+        id="menu-toggle" 
+        class="md:hidden text-white focus:outline-none"
+        aria-label="Toggle menu"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </nav>
+  </div>
+  
+  <!-- Mobile Menu -->
+  <div 
+    id="mobile-menu" 
+    class="fixed inset-0 bg-primary z-50 flex flex-col items-center justify-center space-y-8 transform translate-x-full transition-transform duration-300"
+  >
+    <button 
+      id="close-menu" 
+      class="absolute top-4 right-4 text-white focus:outline-none"
+      aria-label="Close menu"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    
+    {navItems.map(item => (
+      <a 
+        href={item.url} 
+        class="text-xl text-white hover:text-accent transition-colors duration-300"
+      >
+        {item.label}
+      </a>
+    ))}
+    <a 
+      href="#contact" 
+      class="btn btn-primary mt-4"
+    >
+      Book a Consultation
+    </a>
+  </div>
+</header>
+
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      navbar?.classList.add('bg-primary/90', 'backdrop-blur-md', 'shadow-lg');
+    } else {
+      navbar?.classList.remove('bg-primary/90', 'backdrop-blur-md', 'shadow-lg');
+    }
+  };
+  
+  window.addEventListener('scroll', handleScroll);
+  
+  // Mobile menu toggle
+  const menuToggle = document.getElementById('menu-toggle');
+  const closeMenu = document.getElementById('close-menu');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const mobileLinks = document.querySelectorAll('#mobile-menu a');
+  
+  menuToggle?.addEventListener('click', () => {
+    mobileMenu?.classList.remove('translate-x-full');
+    document.body.style.overflow = 'hidden';
+  });
+  
+  closeMenu?.addEventListener('click', () => {
+    mobileMenu?.classList.add('translate-x-full');
+    document.body.style.overflow = '';
+  });
+  
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+    });
+  });
+</script> 
