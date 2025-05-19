@@ -34,6 +34,13 @@ const designStyles = [
   { value: "industrial", label: "Industrial", color: "bg-gradient-to-br from-gray-700 to-gray-900" },
   { value: "mid-century", label: "Mid-Century Modern", color: "bg-gradient-to-br from-amber-500 to-amber-700" }
 ];
+
+// Form steps
+const formSteps = [
+  { id: 1, name: "Project Details" },
+  { id: 2, name: "Design Preferences" },
+  { id: 3, name: "Contact Information" }
+];
 ---
 
 <Layout
@@ -63,34 +70,29 @@ const designStyles = [
           <!-- Progress Indicator -->
           <div class="mb-10 md:mb-12 px-4" id="progress-bar">
             <div class="flex items-center justify-between relative max-w-md mx-auto">
+              <!-- Progress line
+              <div class="absolute h-1 bg-gray-200 left-0 right-0 top-7 md:top-8 -z-0"></div> -->
 
-              <!-- Step 1 -->
-              <div class="step completed flex flex-col items-center relative z-10">
-                <div class="step-circle">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white checkmark" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                  </svg>
-                  <span>1</span>
-                </div>
-                <span class="text-sm mt-2 text-center">Project <br>Details</span>
-              </div>
-              
-              <!-- Step 2 -->
-              <div class="step completed flex flex-col items-center relative z-10">
-                <div class="step-circle">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white checkmark" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
-                  </svg>
-                  <span>2</span>
-                </div>
-                <span class="text-sm mt-2 text-center">Design <br>Preferences</span>
-              </div>
-              
-              <!-- Step 3 -->
-              <div class="step active flex flex-col items-center relative z-10">
-                <div class="step-circle"><span>3</span></div>
-                <span class="text-sm mt-2 text-center">Contact <br>Information</span>
-              </div>
+              {formSteps.map((step, index) => (
+                <button 
+                  type="button"
+                  class={`step flex flex-col items-center relative z-10 ${index === 0 ? 'active' : ''}`} 
+                  data-step={step.id}
+                  aria-label={`Go to step ${step.id}: ${step.name}`}
+                  aria-current={index === 0 ? 'step' : undefined}
+                  tabindex={index === 0 ? 0 : -1}
+                >
+                  <div class="step-circle">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white checkmark" viewBox="0 0 20 20" fill="currentColor">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                    </svg>
+                    <span>{step.id}</span>
+                  </div>
+                  <span class="text-sm mt-2 text-center">{step.name.split(' ').map(word => (
+                    <>{word}<br/></>
+                  ))}</span>
+                </button>
+              ))}
             </div>
           </div>
           
@@ -119,7 +121,7 @@ const designStyles = [
                     id="projectDescription" 
                     name="projectDescription" 
                     rows="4" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                     placeholder="Tell us about your space, what you're looking to achieve, and any specific requirements..."
                   ></textarea>
                 </div>
@@ -128,7 +130,7 @@ const designStyles = [
                   <label class="block text-sm font-medium text-gray-700 mb-2">What is your estimated budget range?</label>
                   <select 
                     name="budget" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                   >
                     <option value="" disabled selected>Select a budget range</option>
                     {budgetOptions.map(option => (
@@ -142,7 +144,7 @@ const designStyles = [
                   <select 
                     id="timeline" 
                     name="timeline" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                   >
                     <option value="" disabled selected>Select a timeframe</option>
                     <option value="immediately">As soon as possible</option>
@@ -226,7 +228,7 @@ const designStyles = [
                               type="url" 
                               name="inspirationLinks[]" 
                               placeholder="https://www.example.com/inspiration"
-                              class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                              class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                             />
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -267,7 +269,7 @@ const designStyles = [
                         name="additionalNotes" 
                         rows="3" 
                         placeholder="Tell us more about specific elements, materials, or aesthetics you're drawn to..."
-                        class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                       ></textarea>
                     </div>
                   </div>
@@ -292,7 +294,7 @@ const designStyles = [
                       type="text" 
                       id="firstName" 
                       name="firstName" 
-                      class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                       required
                     />
                   </div>
@@ -303,7 +305,7 @@ const designStyles = [
                       type="text" 
                       id="lastName" 
                       name="lastName" 
-                      class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                       required
                     />
                   </div>
@@ -316,7 +318,7 @@ const designStyles = [
                       type="email" 
                       id="email" 
                       name="email" 
-                      class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                       required
                     />
                   </div>
@@ -327,7 +329,7 @@ const designStyles = [
                       type="tel" 
                       id="phone" 
                       name="phone" 
-                      class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                       required
                     />
                   </div>
@@ -340,7 +342,7 @@ const designStyles = [
                     id="location" 
                     name="location" 
                     placeholder="City, State/Province, Country"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                     required
                   />
                 </div>
@@ -350,7 +352,7 @@ const designStyles = [
                   <select 
                     id="referral" 
                     name="referral" 
-                    class="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                    class="w-full px-4 py-3 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                   >
                     <option value="" disabled selected>Select an option</option>
                     <option value="google">Google Search</option>
@@ -407,6 +409,29 @@ const designStyles = [
 </Layout>
 
 <style>
+  /* Add styling to show that steps are clickable or not */
+  .step {
+    transition: all 0.2s ease;
+  }
+  
+  .step.completed {
+    cursor: pointer;
+  }
+  
+  .step.completed:hover .step-circle {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.8);
+  }
+  
+  .step.active {
+    cursor: default;
+  }
+  
+  .step:not(.active):not(.completed) {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  
   .step-circle {
     @apply rounded-full bg-gray-100 text-primary flex items-center justify-center font-medium;
     box-shadow: 0 0 0 4px white;
@@ -535,6 +560,8 @@ const designStyles = [
 </style>
 
 <script>
+import { fade } from "astro:transitions";
+
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('consultation-form') as HTMLFormElement | null;
     const progressSteps = document.querySelectorAll('#progress-bar .step');
@@ -546,6 +573,29 @@ const designStyles = [
     const prevButton2 = document.getElementById('prev-2') as HTMLButtonElement | null;
     const nextButton2 = document.getElementById('next-2') as HTMLButtonElement | null;
     const prevButton3 = document.getElementById('prev-3') as HTMLButtonElement | null;
+
+    // Click handlers for progress step buttons
+    progressSteps.forEach(step => {
+      step.addEventListener('click', () => {
+        const stepNumber = parseInt((step as HTMLElement).dataset.step || '1');
+        const currentActive = getCurrentActiveStep();
+        
+        // Only allow navigation to completed steps or the current active step
+        if (stepNumber < currentActive || stepNumber === currentActive) {
+          goToStep(stepNumber);
+        }
+      });
+    });
+
+    // Get the current active step number
+    function getCurrentActiveStep() {
+      for (let i = 0; i < progressSteps.length; i++) {
+        if (progressSteps[i].classList.contains('active')) {
+          return i + 1;
+        }
+      }
+      return 1; // Default to first step
+    }
 
     // For project type selection
     const projectTypeOptions = document.querySelectorAll('.project-type-option input');
@@ -588,7 +638,7 @@ const designStyles = [
               type="url" 
               name="inspirationLinks[]" 
               placeholder="https://www.example.com/inspiration"
-              class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+              class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
             />
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -661,7 +711,7 @@ const designStyles = [
             const div = document.createElement('div');
             div.className = 'relative group';
             div.innerHTML = `
-              <div class="aspect-square rounded-lg overflow-hidden border border-gray-200">
+              <div class="aspect-square rounded-sm overflow-hidden border border-gray-200">
                 <img src="${e.target.result}" class="w-full h-full object-cover" alt="Preview image ${i+1}" />
                 <div class="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <button type="button" class="remove-image bg-white/90 text-red-500 rounded-full p-1.5 hover:bg-white transition-colors" data-index="${i}">
@@ -695,9 +745,8 @@ const designStyles = [
     
     // Function to initialize the steps based on the URL
     function initializeSteps() {
-      // For this demo, let's set step 3 as the active step
-      // In a real app, you might want to check URL parameters or localStorage
-      goToStep(3, true);
+      // Start at step 1 for new consultations
+      goToStep(1, true);
     }
     
     // Step navigation
@@ -707,12 +756,20 @@ const designStyles = [
       });
       
       progressSteps.forEach((progressStep, index) => {
-        if (index < step - 1) {
+        const stepNum = index + 1;
+        
+        if (stepNum < step) {
+          // Completed steps
           progressStep.classList.add('completed');
           progressStep.classList.remove('active');
-        } else if (index === step - 1) {
+          progressStep.setAttribute('aria-current', 'false');
+          progressStep.setAttribute('tabindex', '0'); // Make completed steps focusable
+        } else if (stepNum === step) {
+          // Current active step
           progressStep.classList.add('active');
           progressStep.classList.remove('completed');
+          progressStep.setAttribute('aria-current', 'step');
+          progressStep.setAttribute('tabindex', '0'); // Make active step focusable
           
           // On mobile, ensure the active step is visible by scrolling to it
           const progressBar = document.getElementById('progress-bar');
@@ -720,7 +777,10 @@ const designStyles = [
             progressBar.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         } else {
+          // Future steps
           progressStep.classList.remove('active', 'completed');
+          progressStep.setAttribute('aria-current', 'false');
+          progressStep.setAttribute('tabindex', '-1'); // Make future steps not focusable
         }
       });
     }

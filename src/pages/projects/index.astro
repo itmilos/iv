@@ -40,11 +40,11 @@ const categories = Object.keys(projectsByCategory);
     <section class="bg-light py-8 sticky top-0 z-30 shadow-sm">
       <div class="container">
         <div class="flex items-center justify-center overflow-x-auto pb-2">
-          <a href="#all" class="px-5 pt-1 pb-1 rounded-full font-medium text-primary bg-white shadow-sm mx-2 hover:bg-accent hover:text-white transition-colors">All Projects</a>
+          <a href="#all" class="px-5 pt-1 pb-1 rounded-sm font-medium text-primary bg-white shadow-sm mx-2 hover:bg-accent hover:text-white transition-colors">All Projects</a>
           {categories.map(category => (
             <a 
               href={`#${category.toLowerCase().replace(/\s+/g, '-')}`}
-              class="px-5 pt-1 pb-1 rounded-full font-medium text-primary bg-white shadow-sm mx-2 hover:bg-accent hover:text-white transition-colors"
+              class="px-5 pt-1 pb-1 rounded-sm font-medium text-primary bg-white shadow-sm mx-2 hover:bg-accent hover:text-white transition-colors"
             >
               {category}
             </a>
@@ -64,7 +64,7 @@ const categories = Object.keys(projectsByCategory);
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map(project => (
             <a href={`/projects/${project.id}`} class="group block">
-              <div class="relative overflow-hidden rounded-lg aspect-square mb-4">
+              <div class="relative overflow-hidden rounded-sm aspect-square mb-4">
                 <div class={`absolute inset-0 w-full h-full ${project.color} transition-transform duration-500 group-hover:scale-105`}></div>
                 <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80"></div>
                 <div class="absolute bottom-0 left-0 p-6">
@@ -91,7 +91,7 @@ const categories = Object.keys(projectsByCategory);
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projectsByCategory[category].map(project => (
               <a href={`/projects/${project.id}`} class="group block">
-                <div class="relative overflow-hidden rounded-lg aspect-square mb-4">
+                <div class="relative overflow-hidden rounded-sm aspect-square mb-4">
                   <div class={`absolute inset-0 w-full h-full ${project.color} transition-transform duration-500 group-hover:scale-105`}></div>
                   <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-80"></div>
                   <div class="absolute bottom-0 left-0 p-6">

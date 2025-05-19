@@ -166,5 +166,5 @@
 
 /* Card styles */
 .card {
-  @apply bg-white p-6 rounded-lg shadow-md transition-all duration-300;
+  @apply bg-white p-6 rounded-sm shadow-md transition-all duration-300;
 } 

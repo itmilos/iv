@@ -20,12 +20,12 @@ const categories = ["All Projects", ...new Set(projects.map(project => project.c
     <!-- Project Filters -->
     <div class="project-filters-container mb-12">
       <h3 class="sr-only">Filter projects by category</h3>
-      <div class="filter-wrapper relative bg-white/5 rounded-lg p-1.5">
+      <div class="filter-wrapper relative bg-white/5 rounded-sm p-1.5">
         <div class="project-filters overflow-x-auto flex items-center">
           <div class="flex space-x-2 min-w-max">
             {categories.map((category, index) => (
               <button 
-                class={`filter-btn px-6 py-3 rounded-full text-white whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-primary ${index === 0 ? 'active' : ''}`}
+                class={`filter-btn px-6 py-3 rounded-sm text-white whitespace-nowrap focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 focus:ring-offset-primary ${index === 0 ? 'active' : ''}`}
                 data-category={category === "All Projects" ? "all" : category}
                 aria-pressed={index === 0 ? "true" : "false"}
               >
@@ -40,13 +40,13 @@ const categories = ["All Projects", ...new Set(projects.map(project => project.c
     <div id="project-results" aria-live="polite">
       <div class="project-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {projects.map(project => (
-          <div 
+          <a 
+            href={`/projects/${project.id}`} 
             class="project-card group relative overflow-hidden rounded-sm shadow-lg transition-all duration-300"
             data-category={project.category}
-            style="opacity: 1; transform: translateY(0);"
           >
             <div class="aspect-[4/5]">
-              <div class={`absolute inset-0 w-full h-full ${project.color}`}></div>
+              <div class={`absolute inset-0 w-full h-full ${project.color} transition-transform duration-500 group-hover:scale-105`}></div>
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-90"></div>
               <div class="absolute bottom-0 left-0 p-6">
                 <div class="text-accent text-sm font-medium mb-2">
@@ -57,13 +57,8 @@ const categories = ["All Projects", ...new Set(projects.map(project => project.c
                   {project.shortDescription}
                 </p>
               </div>
-              <a 
-                href={`/projects/${project.id}`} 
-                class="absolute inset-0 z-10 focus:outline-none focus:ring-2 focus:ring-accent focus:ring-inset" 
-                aria-label={`View details of ${project.title}, ${project.category} project in ${project.location}`}
-              ></a>
             </div>
-          </div>
+          </a>
         ))}
       </div>
       
@@ -120,6 +115,8 @@ const categories = ["All Projects", ...new Set(projects.map(project => project.c
   
   .project-card {
     backface-visibility: hidden;
+    display: block; /* Ensure the entire card is clickable */
+    text-decoration: none; /* Remove underline from links */
   }
   
   /* Improved focus states for accessibility */
@@ -241,16 +238,5 @@ const categories = ["All Projects", ...new Set(projects.map(project => project.c
         }
       });
     });
-    
-    // Add smooth transitions to project cards
-    projectCards.forEach(card => {
-      const projectCard = card as HTMLElement;
-      projectCard.style.transition = 'opacity 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease';
-    });
-    
-    // Initialize with "All Projects" selected
-    if (filterButtons.length > 0) {
-      (filterButtons[0] as HTMLElement).setAttribute('aria-pressed', 'true');
-    }
   });
 </script> 
