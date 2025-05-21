@@ -53,11 +53,11 @@ const formSteps = [
     <!-- Hero Section -->
     <section class="page-header">
       <div class="container text-center">
-        <h1 class="page-title text-white">
+        <h1 class="page-title text-light">
           <span class="page-title-accent">Book a Consultation</span>
           <span class="page-title-bg"></span>
         </h1>
-        <p class="text-xl text-white/80 max-w-2xl mx-auto">
+        <p class="text-xl text-light/80 max-w-2xl mx-auto">
           Take the first step toward transforming your space. Tell us about your project vision and preferences.
         </p>
       </div>
@@ -97,10 +97,10 @@ const formSteps = [
           </div>
           
           <!-- Form Steps -->
-          <form id="consultation-form" class="px-4 md:px-8 pb-8">
+          <form id="consultation-form" class="px-4 md:px-8 pb-8" novalidate>
             <!-- Step 1: Project Details -->
             <div class="step-content" id="step-1">
-              <h2 class="text-xl md:text-2xl font-serif text-indigo-700 mb-6">Project Details</h2>
+              <h2 class="text-xl md:text-2xl font-serif text-primary mb-6">Project Details</h2>
               
               <div class="space-y-6">
                 <div>
@@ -163,7 +163,7 @@ const formSteps = [
             
             <!-- Step 2: Design Preferences -->
             <div class="step-content hidden" id="step-2">
-              <h2 class="text-xl md:text-2xl font-serif text-indigo-700 mb-6">Design Preferences</h2>
+              <h2 class="text-xl md:text-2xl font-serif text-primary mb-6">Design Preferences</h2>
               
               <div class="space-y-8">
                 <div>
@@ -284,7 +284,7 @@ const formSteps = [
             
             <!-- Step 3: Contact Information -->
             <div class="step-content hidden" id="step-3">
-              <h2 class="text-xl md:text-2xl font-serif text-indigo-700 mb-6">Contact Information</h2>
+              <h2 class="text-xl md:text-2xl font-serif text-primary mb-6">Contact Information</h2>
               
               <div class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
@@ -451,11 +451,11 @@ const formSteps = [
   }
   
   .step.active .step-circle {
-    @apply bg-teal-500 text-white;
+    @apply bg-primary text-light;
   }
   
   .step.completed .step-circle {
-    @apply bg-green-500 text-white;
+    @apply bg-bronze text-light;
   }
   
   .step.completed .step-circle span {
@@ -510,19 +510,19 @@ const formSteps = [
   }
   
   .btn-primary {
-    @apply bg-accent text-white hover:bg-[#009BA3] active:bg-[#008990] border border-transparent;
+    @apply bg-primary text-light hover:bg-primary/90 active:bg-primary/80 border border-transparent;
   }
   
   .btn-secondary {
-    @apply bg-primary text-white hover:bg-[#2d343e] active:bg-[#1a1f25] border border-transparent;
+    @apply bg-bronze text-light hover:bg-bronze/90 active:bg-bronze/80 border border-transparent;
   }
   
   .btn-outline {
-    @apply bg-transparent border border-accent text-accent hover:bg-accent/10 active:bg-accent/15;
+    @apply bg-transparent border border-primary text-primary hover:bg-primary/10 active:bg-primary/15;
   }
   
   button[type="button"].btn-text {
-    @apply bg-transparent text-accent hover:text-[#009BA3] px-2 py-1 min-w-0 border-b border-transparent hover:border-[#009BA3] text-sm;
+    @apply bg-transparent text-accent hover:text-accent/80 px-2 py-1 min-w-0 border-b border-transparent hover:border-accent/80 text-sm;
   }
   
   /* Focus styles for accessibility */
