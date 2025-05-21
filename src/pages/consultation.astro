@@ -225,10 +225,11 @@ const formSteps = [
                         <div class="link-input-group flex items-center gap-2">
                           <div class="flex-1 relative">
                             <input 
-                              type="url" 
+                              type="text" 
                               name="inspirationLinks[]" 
                               placeholder="https://www.example.com/inspiration"
                               class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+                              aria-required="false"
                             />
                             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
                               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -390,14 +391,14 @@ const formSteps = [
             
             <!-- Success Message (initially hidden) -->
             <div class="hidden text-center py-8" id="success-message">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-green-500 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-bronze mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <h2 class="text-2xl font-serif mb-4">Thank You!</h2>
-              <p class="text-gray-600 mb-6">
+              <h2 class="text-2xl font-serif text-primary mb-4">Thank You!</h2>
+              <p class="text-secondary mb-6">
                 Your consultation request has been submitted successfully. Our team will review your information and contact you within 24-48 hours to schedule your consultation.
               </p>
-              <a href="/" class="btn btn-primary">Return to Homepage</a>
+              <a href="/" class="btn btn-secondary">Return to Homepage</a>
             </div>
           </form>
         </div>
@@ -635,10 +636,11 @@ import { fade } from "astro:transitions";
         newLinkGroup.innerHTML = `
           <div class="flex-1 relative">
             <input 
-              type="url" 
+              type="text" 
               name="inspirationLinks[]" 
               placeholder="https://www.example.com/inspiration"
               class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-sm focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
+              aria-required="false"
             />
             <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
