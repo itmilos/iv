@@ -11,23 +11,23 @@
   }
   
   .btn-primary {
-    @apply bg-accent text-white hover:bg-[#009BA3] active:bg-[#008990] border border-transparent;
+    @apply bg-primary text-light hover:bg-primary/90 active:bg-primary/80 border border-transparent;
   }
   
   .btn-secondary {
-    @apply bg-primary text-white hover:bg-[#2d343e] active:bg-[#1a1f25] border border-transparent;
+    @apply bg-bronze text-light hover:bg-bronze/90 active:bg-bronze/80 border border-transparent;
   }
   
   .btn-outline {
-    @apply bg-transparent border border-accent text-accent hover:bg-accent/10 active:bg-accent/15;
+    @apply bg-transparent border border-primary text-primary hover:bg-primary/10 active:bg-primary/15;
   }
   
   .btn-text {
-    @apply bg-transparent text-accent hover:text-[#009BA3] p-1 min-w-0 border-b border-transparent hover:border-[#009BA3];
+    @apply bg-transparent text-accent hover:text-accent/80 p-1 min-w-0 border-b border-transparent hover:border-accent/80;
   }
 
   .btn-disabled {
-    @apply bg-gray-200 text-gray-400 cursor-not-allowed opacity-70;
+    @apply bg-secondary/20 text-secondary/60 cursor-not-allowed opacity-70;
   }
   
   /* Focus styles for accessibility */
@@ -46,7 +46,7 @@
   
   /* Cards */
   .card {
-    @apply bg-white rounded-sm shadow-md p-6 transition-all duration-300;
+    @apply bg-light rounded-sm shadow-md p-6 transition-all duration-300;
   }
   
   /* Hero Section */

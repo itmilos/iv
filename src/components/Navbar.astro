@@ -12,21 +12,21 @@ const navItems = [
   <div class="container mx-auto px-3 sm:px-4 py-3">
     <nav class="flex justify-between items-center">
       <!-- Logo -->
-      <a href="/" class="text-2xl font-serif font-medium text-white">IV<span class="text-accent">.</span></a>
+      <a href="/" class="text-2xl font-serif font-medium text-light">IV<span class="text-bronze">+</span></a>
       
       <!-- Desktop Navigation -->
       <div class="hidden md:flex items-center space-x-8">
         {navItems.map(item => (
           <a 
             href={item.url} 
-            class="text-white hover:text-accent transition-colors duration-300"
+            class="text-light hover:text-bronze transition-colors duration-300"
           >
             {item.label}
           </a>
         ))}
         <a 
           href="/consultation" 
-          class="btn btn-primary text-sm px-4 py-2"
+          class="btn btn-secondary text-sm px-4 py-2"
         >
           Book a Consultation
         </a>
@@ -35,7 +35,7 @@ const navItems = [
       <!-- Mobile Menu Button -->
       <button 
         id="menu-toggle" 
-        class="md:hidden text-white focus:outline-none p-2"
+        class="md:hidden text-light focus:outline-none"
         aria-label="Toggle menu"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -52,7 +52,7 @@ const navItems = [
   >
     <button 
       id="close-menu" 
-      class="absolute top-4 right-4 text-white focus:outline-none"
+      class="absolute top-4 right-4 text-light focus:outline-none"
       aria-label="Close menu"
     >
       <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -63,14 +63,14 @@ const navItems = [
     {navItems.map(item => (
       <a 
         href={item.url} 
-        class="text-xl text-white hover:text-accent transition-colors duration-300"
+        class="text-xl text-light hover:text-bronze transition-colors duration-300"
       >
         {item.label}
       </a>
     ))}
     <a 
       href="/consultation" 
-      class="btn btn-primary"
+      class="btn btn-secondary mt-4"
     >
       Book a Consultation
     </a>

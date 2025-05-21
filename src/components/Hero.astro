@@ -5,37 +5,37 @@ interface Props {
 }
 
 const { 
-  title = "European Aesthetics Meets American Lifestyle", 
-  subtitle = "Elevating everyday life through intentional design" 
+  title = "Bold Luxury Design for American Interiors", 
+  subtitle = "IV+ Design Studio - Tailored residential and commercial design" 
 } = Astro.props;
 ---
 
 <section class="relative h-screen flex items-center justify-center overflow-hidden">
-  <!-- Background with Color Gradient Instead of Image -->
+  <!-- Background with Color Gradient -->
   <div class="absolute inset-0 z-0">
-    <div class="absolute inset-0 bg-gradient-to-br from-primary via-secondary to-primary z-10"></div>
-    <div class="absolute inset-0 bg-accent/5 z-20 mix-blend-overlay"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary z-10"></div>
+    <div class="absolute inset-0 bg-bronze/5 z-20 mix-blend-overlay"></div>
     
     <!-- Decorative geometric elements -->
-    <div class="absolute top-1/4 right-1/4 w-64 h-64 rounded-sm bg-accent/10 rotate-45 transform opacity-20"></div>
-    <div class="absolute bottom-1/4 left-1/4 w-96 h-96 rounded-sm bg-white/5 -rotate-12 transform opacity-20"></div>
+    <div class="absolute top-1/4 right-1/4 w-64 h-64 rounded-sm bg-bronze/10 rotate-45 transform opacity-20"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-96 h-96 rounded-sm bg-light/5 -rotate-12 transform opacity-20"></div>
   </div>
   
   <!-- Content -->
   <div class="container relative z-20 text-center px-4">
-    <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl text-white font-medium leading-tight mb-6 relative inline-block">
+    <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl text-light font-medium leading-tight mb-6 relative inline-block">
       <span class="relative z-10">{title}</span>
-      <span class="absolute inset-0 bg-accent/20 -rotate-1 transform z-0"></span>
+      <span class="absolute inset-0 bg-bronze/20 -rotate-1 transform z-0"></span>
     </h1>
-    <p class="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto mb-12">
+    <p class="text-xl md:text-2xl text-light/90 max-w-3xl mx-auto mb-12">
       {subtitle}
     </p>
     <div class="flex flex-col sm:flex-row gap-6 justify-center">
-      <a href="/consultation" class="btn btn-primary">
+      <a href="/consultation" class="btn btn-secondary">
         Book a Consultation
       </a>
-      <a href="#projects" class="btn btn-outline text-white border-white hover:bg-white/10">
-        Explore Projects
+      <a href="#services" class="btn btn-outline text-light border-light hover:bg-light/10">
+        Our Services
       </a>
     </div>
   </div>
@@ -44,7 +44,7 @@ const {
   <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20 animate-bounce">
     <svg 
       xmlns="http://www.w3.org/2000/svg" 
-      class="h-8 w-8 text-white" 
+      class="h-8 w-8 text-light" 
       fill="none" 
       viewBox="0 0 24 24" 
       stroke="currentColor"
