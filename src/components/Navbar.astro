@@ -48,7 +48,7 @@ const navItems = [
   <!-- Mobile Menu -->
   <div 
     id="mobile-menu" 
-    class="fixed inset-0 bg-primary z-50 flex flex-col items-center justify-center space-y-8 transform translate-x-full transition-transform duration-300"
+    class="fixed inset-0 bg-primary z-55 flex flex-col items-center justify-center space-y-8 transform translate-x-full transition-transform duration-300"
   >
     <button 
       id="close-menu" 
@@ -99,17 +99,38 @@ const navItems = [
   menuToggle?.addEventListener('click', () => {
     mobileMenu?.classList.remove('translate-x-full');
     document.body.style.overflow = 'hidden';
+    
+    // Handle navbar background when menu opens
+    if (navbar) {
+      if (window.scrollY > 50) {
+        navbar.dataset.wasScrolled = 'true';
+        navbar.classList.remove('bg-primary/90', 'backdrop-blur-md');
+      }
+      navbar.classList.add('bg-primary'); // Ensure solid background
+    }
   });
   
-  closeMenu?.addEventListener('click', () => {
+  const closeMobileMenu = () => {
     mobileMenu?.classList.add('translate-x-full');
     document.body.style.overflow = '';
-  });
+
+    // Restore navbar background when menu closes
+    if (navbar) {
+      if (navbar.dataset.wasScrolled === 'true') {
+        navbar.classList.add('bg-primary/90', 'backdrop-blur-md');
+        navbar.dataset.wasScrolled = 'false'; // Reset flag
+      }
+      // The scroll handler will re-apply bg-primary/90 if still scrolled,
+      // so removing bg-primary here is okay. If not scrolled, it should be transparent.
+      navbar.classList.remove('bg-primary');
+      // Re-run scroll handler to ensure correct state if user didn't scroll while menu was open
+      handleScroll();
+    }
+  };
+
+  closeMenu?.addEventListener('click', closeMobileMenu);
   
   mobileLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      mobileMenu?.classList.add('translate-x-full');
-      document.body.style.overflow = '';
-    });
+    link.addEventListener('click', closeMobileMenu);
   });
 </script> 
