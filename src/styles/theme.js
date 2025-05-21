@@ -4,10 +4,11 @@
  */
 
 const colors = {
-  primary: '#222831',
-  secondary: '#393E46',
-  accent: '#00ADB5',
-  light: '#EEEEEE',
+  primary: '#1F2A44', // Midnight Blue
+  secondary: '#A9A9A9', // Pewter Grey
+  accent: '#C9A28C', // Clay Rose
+  light: '#F5F3EF', // Warm Sand
+  bronze: '#A38C5E', // Brushed Bronze
   
   // Extended color palette
   indigo: {
@@ -135,36 +136,36 @@ const buttons = {
     minWidth: '10rem',
   },
   primary: {
-    backgroundColor: colors.accent,
+    backgroundColor: colors.primary,
     color: colors.light,
-    hoverBg: '#009BA3', // Slightly darker than accent for better contrast
-    activeBg: '#008990', // Even darker for pressed state
+    hoverBg: '#2B3A5B', // Slightly lighter than Midnight Blue
+    activeBg: '#192336', // Slightly darker for pressed state
     borderColor: 'transparent',
   },
   secondary: {
-    backgroundColor: colors.primary,
+    backgroundColor: colors.bronze,
     color: colors.light,
-    hoverBg: '#2d343e', // Slightly lighter than primary
-    activeBg: '#1a1f25', // Slightly darker for pressed state
+    hoverBg: '#B69C6D', // Slightly lighter than Brushed Bronze
+    activeBg: '#8A774C', // Slightly darker for pressed state
     borderColor: 'transparent',
   },
   outline: {
     backgroundColor: 'transparent',
     borderWidth: '1px',
-    borderColor: colors.accent,
-    color: colors.accent,
-    hoverBg: 'rgba(0, 173, 181, 0.1)',
-    activeBg: 'rgba(0, 173, 181, 0.15)',
+    borderColor: colors.primary,
+    color: colors.primary,
+    hoverBg: 'rgba(31, 42, 68, 0.1)',
+    activeBg: 'rgba(31, 42, 68, 0.15)',
   },
   text: {
     backgroundColor: 'transparent',
     color: colors.accent,
-    hoverColor: '#009BA3',
+    hoverColor: '#B5917A', // Slightly lighter Clay Rose
     padding: '0.25rem 0.5rem',
     minWidth: 'auto',
     textDecoration: 'none',
     borderBottom: '1px solid transparent',
-    hoverBorderColor: '#009BA3',
+    hoverBorderColor: '#B5917A',
   },
   disabled: {
     backgroundColor: '#E5E7EB',

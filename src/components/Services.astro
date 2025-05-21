@@ -1,40 +1,23 @@
 ---
 const services = [
   {
-    title: "Architectural Design",
-    description: "Full-service architectural design for residential single and two-family projects, from concept to completion with European aesthetics and American functionality.",
+    title: "Full Design Package",
+    description: "Everything you need to bring your project to life — ready for the contractor to execute. From early schematic design & space planning to interior detailing — every element thoughtfully designed.",
+    details: [
+      "Full set of architectural drawings: site plan, floor plans, elevations & sections",
+      "3D visualizations & rendering",
+      "Design intent documentation",
+      "Material and fixture suggestions"
+    ],
     icon: "blueprint",
-    slug: "architectural-design"
+    slug: "full-design"
   },
   {
-    title: "Conceptual Design Packages",
-    description: "Creative schematic designs and concept development for clients seeking innovative solutions for their space with a holistic approach.",
+    title: "Design Consultation",
+    description: "Not ready for the full package? We offer expert guidance for early-stage planning, layout reviews, or aesthetic direction — available remotely across the U.S.",
+    details: [],
     icon: "concept",
-    slug: "conceptual-design"
-  },
-  {
-    title: "3D Renderings & Visualizations",
-    description: "Photo-realistic 3D visualizations that bring your project to life before construction begins, allowing for precise planning and design refinement.",
-    icon: "3d",
-    slug: "3d-visualizations"
-  },
-  {
-    title: "Interior Architecture",
-    description: "High-end interior design services that transform spaces into functional works of art, reflecting your unique style and lifestyle needs.",
-    icon: "interior",
-    slug: "interior-architecture"
-  },
-  {
-    title: "Custom Branding & Spaces",
-    description: "Comprehensive branding and space design for businesses, creating cohesive visual identities for coffee shops, retail spaces, and small firms.",
-    icon: "branding",
-    slug: "branding-spaces"
-  },
-  {
-    title: "Digital Design Packages",
-    description: "Remote design services for global clients, delivering comprehensive architectural solutions regardless of geographical location.",
-    icon: "digital",
-    slug: "digital-design"
+    slug: "consultation"
   }
 ];
 ---
@@ -42,21 +25,21 @@ const services = [
 <section id="services" class="section bg-light">
   <div class="container">
     <div class="text-center mb-16">
-      <h2 class="text-3xl md:text-4xl font-serif text-indigo-700 mb-4 relative inline-block">
+      <h2 class="text-3xl md:text-4xl font-serif text-primary mb-4 relative inline-block">
         <div class="relative z-10">Our Services</div>
-        <div class="absolute left-1/2 -translate-x-1/2 bottom-0 w-24 h-1 bg-indigo-500/30"></div>
+        <div class="absolute left-1/2 -translate-x-1/2 bottom-0 w-24 h-1 bg-bronze/50"></div>
       </h2>
-      <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-        We provide architectural design services that elevate everyday life through intentional design to inspire people
+      <p class="text-lg text-secondary max-w-3xl mx-auto">
+        We offer tailored design-only services for residential and commercial projects — including new builds and remodels.
       </p>
     </div>
     
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
       {services.map(service => (
-        <div class="card group hover:shadow-xl transition-all duration-300 flex flex-col justify-between border border-gray-100">
+        <div class="card group hover:shadow-xl transition-all duration-300 flex flex-col justify-between border border-secondary/20 rounded-sm bg-light p-8">
           <div>
-            <div class="h-16 w-16 rounded-sm bg-accent/10 flex items-center justify-center mb-6 group-hover:bg-accent/20 transition-colors duration-300">
-              <span class="text-accent">
+            <div class="h-16 w-16 rounded-sm bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-bronze/20 transition-colors duration-300">
+              <span class="text-bronze">
                 {service.icon === "blueprint" && (
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
@@ -67,39 +50,32 @@ const services = [
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
                 )}
-                {service.icon === "3d" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                  </svg>
-                )}
-                {service.icon === "interior" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                  </svg>
-                )}
-                {service.icon === "branding" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
-                  </svg>
-                )}
-                {service.icon === "digital" && (
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-                  </svg>
-                )}
               </span>
             </div>
-            <h3 class="text-xl font-serif text-teal-700 mb-3">{service.title}</h3>
-            <p class="text-gray-600 mb-6">{service.description}</p>
+            <h3 class="text-2xl font-serif text-primary mb-4">✦ {service.title}</h3>
+            <p class="text-secondary mb-6">{service.description}</p>
+            
+            {service.details.length > 0 && (
+              <div class="mb-6">
+                <h4 class="text-primary font-medium mb-3">What's included:</h4>
+                <ul class="space-y-2">
+                  {service.details.map(detail => (
+                    <li class="flex items-start">
+                      <span class="text-accent mr-2">*</span>
+                      <span class="text-secondary">{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
-          {/* <a href={`/services#${service.slug}`} class="btn btn-text self-start">Learn more</a> */}
         </div>
       ))}
     </div>
     
     <div class="text-center mt-16">
-      <a href="/#services" class="btn btn-primary">
-        View All Services
+      <a href="/consultation" class="btn bg-primary text-light hover:bg-opacity-90 transition-all px-8 py-3 rounded-sm">
+        Schedule a Consultation
       </a>
     </div>
   </div>
