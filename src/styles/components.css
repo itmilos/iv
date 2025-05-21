@@ -7,7 +7,7 @@
   
   /* Buttons - Following Nielsen Norman Group's usability guidelines */
   .btn {
-    @apply inline-block text-center font-medium rounded-sm transition-colors py-3 px-6 min-w-40;
+    @apply inline-block text-center font-medium rounded-sm transition-colors py-3 px-4 min-w-32 sm:px-6 sm:min-w-40;
   }
   
   .btn-primary {

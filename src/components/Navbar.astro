@@ -9,7 +9,7 @@ const navItems = [
 ---
 
 <header class="fixed w-full z-50 transition-all duration-300" id="navbar">
-  <div class="container mx-auto px-4 py-4">
+  <div class="container mx-auto px-3 sm:px-4 py-3">
     <nav class="flex justify-between items-center">
       <!-- Logo -->
       <a href="/" class="text-2xl font-serif font-medium text-white">IV<span class="text-accent">.</span></a>
@@ -35,7 +35,7 @@ const navItems = [
       <!-- Mobile Menu Button -->
       <button 
         id="menu-toggle" 
-        class="md:hidden text-white focus:outline-none"
+        class="md:hidden text-white focus:outline-none p-2"
         aria-label="Toggle menu"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -48,7 +48,7 @@ const navItems = [
   <!-- Mobile Menu -->
   <div 
     id="mobile-menu" 
-    class="fixed inset-0 bg-primary z-50 flex flex-col items-center justify-center space-y-8 transform translate-x-full transition-transform duration-300"
+    class="fixed inset-0 bg-primary z-50 flex flex-col items-center justify-center space-y-8 transform translate-x-full transition-transform duration-300 p-8"
   >
     <button 
       id="close-menu" 
@@ -70,7 +70,7 @@ const navItems = [
     ))}
     <a 
       href="/consultation" 
-      class="btn btn-primary mt-4"
+      class="btn btn-primary"
     >
       Book a Consultation
     </a>
