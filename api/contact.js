@@ -1,19 +1,9 @@
 // api/contact.js - Vercel Serverless Function for handling contact form submissions
-import nodemailer from 'nodemailer';
+import * as SibApiV3Sdk from '@getbrevo/brevo';
 
-// Create reusable transporter
-const createTransporter = () => {
-  // Replace these with your actual email service credentials
-  return nodemailer.createTransport({
-    host: process.env.EMAIL_HOST || 'smtp.example.com',
-    port: process.env.EMAIL_PORT || 587,
-    secure: process.env.EMAIL_SECURE === 'true',
-    auth: {
-      user: process.env.EMAIL_USER || 'your-email@example.com',
-      pass: process.env.EMAIL_PASSWORD || 'your-password',
-    },
-  });
-};
+// Initialize Brevo API client
+const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY || '');
 
 export default async function handler(req, res) {
   // Only accept POST requests
@@ -36,41 +26,40 @@ export default async function handler(req, res) {
       return res.status(400).json({ error: 'Invalid email address' });
     }
 
-    // Send email using nodemailer
-    const transporter = createTransporter();
-    
+    // Check if we have Brevo API key
+    if (!process.env.BREVO_API_KEY) {
+      console.log('Email would be sent with the following content:', { name, email, audience, message });
+      console.log('Set up BREVO_API_KEY environment variable to enable sending');
+      
+      // Return success even in development without API key
+      return res.status(200).json({ 
+        success: true, 
+        message: 'Thank you for your message! We will get back to you soon.' 
+      });
+    }
+
+    // Create email content
     const recipientEmail = process.env.RECIPIENT_EMAIL || 'info@ivarchitecture.com';
     
-    const emailContent = {
-      from: `"IV Architecture Contact Form" <${process.env.EMAIL_USER || 'noreply@example.com'}>`,
-      to: recipientEmail,
-      subject: `New Contact Form Submission from ${name}`,
-      text: `
-        Name: ${name}
-        Email: ${email}
-        Category: ${audience || 'Not specified'}
-        
-        Message:
-        ${message}
-      `,
-      html: `
-        <h2>New Contact Form Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Category:</strong> ${audience || 'Not specified'}</p>
-        <p><strong>Message:</strong></p>
-        <p>${message.replace(/\n/g, '<br>')}</p>
-      `,
+    const sendSmtpEmail = new SibApiV3Sdk.SendSmtpEmail();
+    sendSmtpEmail.subject = `New Contact Form Submission from ${name}`;
+    sendSmtpEmail.htmlContent = `
+      <h2>New Contact Form Submission</h2>
+      <p><strong>Name:</strong> ${name}</p>
+      <p><strong>Email:</strong> ${email}</p>
+      <p><strong>Category:</strong> ${audience || 'Not specified'}</p>
+      <p><strong>Message:</strong></p>
+      <p>${message.replace(/\n/g, '<br>')}</p>
+    `;
+    sendSmtpEmail.sender = { 
+      name: "IV Architecture Contact Form", 
+      email: process.env.SENDER_EMAIL || "noreply@ivarchitecture.com" 
     };
+    sendSmtpEmail.to = [{ email: recipientEmail }];
+    sendSmtpEmail.replyTo = { email, name };
     
-    // Check if we have proper email configuration
-    if (process.env.EMAIL_HOST && process.env.EMAIL_USER && process.env.EMAIL_PASSWORD) {
-      await transporter.sendMail(emailContent);
-    } else {
-      // Log the email content if not in production or missing email config
-      console.log('Email would be sent with the following content:', emailContent);
-      console.log('Set up EMAIL_HOST, EMAIL_PORT, EMAIL_USER, EMAIL_PASSWORD environment variables to enable sending');
-    }
+    // Send email using Brevo
+    await apiInstance.sendTransacEmail(sendSmtpEmail);
     
     // Return success response
     return res.status(200).json({ 
