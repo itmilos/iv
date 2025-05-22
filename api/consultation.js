@@ -1,9 +1,72 @@
 // api/consultation.js - Vercel Serverless Function for handling consultation form submissions
 import * as SibApiV3Sdk from '@getbrevo/brevo';
 
-// Initialize Brevo API client
-const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
-apiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, process.env.BREVO_API_KEY || '');
+// Initialize Brevo API clients
+const emailApiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+const contactsApiInstance = new SibApiV3Sdk.ContactsApi();
+
+// Set API key for both clients
+const apiKey = process.env.BREVO_API_KEY || '';
+emailApiInstance.setApiKey(SibApiV3Sdk.TransactionalEmailsApiApiKeys.apiKey, apiKey);
+contactsApiInstance.setApiKey(SibApiV3Sdk.ContactsApiApiKeys.apiKey, apiKey);
+
+// Function to create or update a contact in Brevo
+async function createOrUpdateContact(contactData) {
+  try {
+    // Create contact attributes
+    const createContact = new SibApiV3Sdk.CreateContact();
+    createContact.email = contactData.email;
+    createContact.attributes = {
+      FIRSTNAME: contactData.firstName,
+      LASTNAME: contactData.lastName,
+      PHONE: contactData.phone,
+      LOCATION: contactData.location,
+      PROJECT_TYPE: contactData.projectType,
+      BUDGET: contactData.budget,
+      TIMELINE: contactData.timeline,
+      DESIGN_STYLES: Array.isArray(contactData.designStyle) 
+        ? contactData.designStyle.join(', ') 
+        : (contactData.designStyle || ''),
+      REFERRAL_SOURCE: contactData.referral || '',
+      LAST_CONSULTATION_REQUEST: new Date().toISOString()
+    };
+    
+    // Add to list if specified
+    if (process.env.BREVO_LIST_ID) {
+      createContact.listIds = [parseInt(process.env.BREVO_LIST_ID)];
+    }
+    
+    // Try to create the contact
+    // If it fails with 400 (contact already exists), we'll update it instead
+    try {
+      await contactsApiInstance.createContact(createContact);
+      console.log(`Created new contact: ${contactData.email}`);
+    } catch (error) {
+      if (error.status === 400) {
+        // Contact already exists, update it
+        const updateContact = new SibApiV3Sdk.UpdateContact();
+        updateContact.attributes = createContact.attributes;
+        
+        // If we have a list ID, add to list
+        if (process.env.BREVO_LIST_ID) {
+          updateContact.listIds = [parseInt(process.env.BREVO_LIST_ID)];
+        }
+        
+        await contactsApiInstance.updateContact(contactData.email, updateContact);
+        console.log(`Updated existing contact: ${contactData.email}`);
+      } else {
+        // Re-throw if it's not a "contact exists" error
+        throw error;
+      }
+    }
+    
+    return true;
+  } catch (error) {
+    console.error('Error creating/updating contact in Brevo:', error);
+    // Don't fail the whole request if contact creation fails
+    return false;
+  }
+}
 
 export default async function handler(req, res) {
   // Only accept POST requests
@@ -57,6 +120,20 @@ export default async function handler(req, res) {
         message: 'Thank you for your consultation request! We will get back to you soon.' 
       });
     }
+
+    // Create or update contact in Brevo
+    await createOrUpdateContact({
+      firstName,
+      lastName,
+      email,
+      phone,
+      location,
+      projectType,
+      budget,
+      timeline,
+      designStyle,
+      referral
+    });
 
     // Format design styles if selected
     const designStylesText = Array.isArray(designStyle) 
@@ -116,7 +193,7 @@ export default async function handler(req, res) {
     sendSmtpEmail.replyTo = { email, name: `${firstName} ${lastName}` };
     
     // Send email using Brevo
-    await apiInstance.sendTransacEmail(sendSmtpEmail);
+    await emailApiInstance.sendTransacEmail(sendSmtpEmail);
     
     // Return success response
     return res.status(200).json({ 
