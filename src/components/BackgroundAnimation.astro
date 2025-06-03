@@ -1,0 +1,551 @@
+<div id="background-animation" class="fixed inset-0 -z-10">
+  <div class="absolute inset-0 bg-gradient-to-b from-primary/95 via-primary/90 to-primary/95 mix-blend-overlay"></div>
+</div>
+
+<script>
+  import * as THREE from 'three';
+
+  // Define section type
+  type SectionId = 'hero' | 'about' | 'story' | 'services' | 'projects' | 'contact' | 'default';
+  
+  // Define color scheme type
+  type ColorScheme = {
+    bronze: number;
+    darkBronze: number;
+    lightBronze: number;
+    opacity: number;
+  };
+
+  // Define architectural element types
+  type ArchitecturalElementType = 'column' | 'arch' | 'beam' | 'roof' | 'wall' | 'window' | 'door' | 'dome' | 'stairs' | 'balcony' | 'fence' | 'garden' | 'pool' | 'bridge' | 'tower';
+  type DecorativeElementType = 'column' | 'roof' | 'dome' | 'tower';
+
+  // Type guard for decorative elements
+  function isDecorativeElement(type: ArchitecturalElementType): type is DecorativeElementType {
+    return ['column', 'roof', 'dome', 'tower'].includes(type);
+  }
+
+  // Initialize scene, camera, and renderer
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+  
+  // Get the container
+  const container = document.getElementById('background-animation');
+  if (!container) {
+    console.error('Background animation container not found');
+    throw new Error('Background animation container not found');
+  }
+  
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  container.appendChild(renderer.domElement);
+
+  // Colors with section-specific variations
+  const COLORS: Record<SectionId | 'default', ColorScheme> = {
+    hero: {
+      bronze: 0xCD7F32,
+      darkBronze: 0x8B4513,
+      lightBronze: 0xDEB887,
+      opacity: 0.4
+    },
+    about: {
+      bronze: 0x8B7355,
+      darkBronze: 0x6B4423,
+      lightBronze: 0xC4A484,
+      opacity: 0.2
+    },
+    story: {
+      bronze: 0x8B7355,
+      darkBronze: 0x6B4423,
+      lightBronze: 0xC4A484,
+      opacity: 0.15
+    },
+    services: {
+      bronze: 0x8B7355,
+      darkBronze: 0x6B4423,
+      lightBronze: 0xC4A484,
+      opacity: 0.1
+    },
+    projects: {
+      bronze: 0xDEB887,
+      darkBronze: 0xCD7F32,
+      lightBronze: 0xFFD700,
+      opacity: 0.3
+    },
+    contact: {
+      bronze: 0x8B7355,
+      darkBronze: 0x6B4423,
+      lightBronze: 0xC4A484,
+      opacity: 0.1
+    },
+    default: {
+      bronze: 0xCD7F32,
+      darkBronze: 0x8B4513,
+      lightBronze: 0xDEB887,
+      opacity: 0.2
+    }
+  };
+
+  let currentSection: SectionId = 'hero';
+  let currentColors = COLORS[currentSection];
+
+  // Type guard for Mesh objects
+  function isMesh(object: THREE.Object3D): object is THREE.Mesh {
+    return object instanceof THREE.Mesh;
+  }
+
+  // Function to update colors based on current section
+  function updateColorsForSection(section: string) {
+    // Type guard for section ID
+    if (Object.keys(COLORS).includes(section)) {
+      currentSection = section as SectionId;
+      currentColors = COLORS[currentSection];
+    } else {
+      currentSection = 'default';
+      currentColors = COLORS.default;
+    }
+    
+    // Update grid material
+    if (gridMaterial) {
+      gridMaterial.color.setHex(currentColors.bronze);
+      gridMaterial.opacity = currentColors.opacity * 0.3;
+    }
+    
+    // Update architectural elements
+    houseElements.forEach(element => {
+      const mainElement = element.children[0];
+      if (isMesh(mainElement) && mainElement.material instanceof THREE.MeshBasicMaterial) {
+        mainElement.material.color.setHex(currentColors.lightBronze);
+        mainElement.material.opacity = currentColors.opacity * 0.4;
+      }
+      
+      // Update decorative elements
+      if (element.children.length > 1) {
+        const decorElement = element.children[1];
+        if (isMesh(decorElement) && decorElement.material instanceof THREE.MeshBasicMaterial) {
+          decorElement.material.color.setHex(currentColors.darkBronze);
+          decorElement.material.opacity = currentColors.opacity * 0.6;
+        }
+      }
+    });
+    
+    // Update particles
+    if (particleMaterial) {
+      particleMaterial.color.setHex(currentColors.bronze);
+      particleMaterial.opacity = currentColors.opacity * 0.6;
+    }
+  }
+
+  // Intersection Observer to detect current section
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const section = entry.target.id;
+        if (section) {
+          updateColorsForSection(section);
+        }
+      }
+    });
+  }, {
+    threshold: 0.5
+  });
+
+  // Observe all sections
+  document.querySelectorAll('section[id]').forEach(section => {
+    observer.observe(section);
+  });
+
+  // Colors
+  const BRONZE = 0xCD7F32;
+  const DARK_BRONZE = 0x8B4513;
+  const LIGHT_BRONZE = 0xDEB887;
+
+  // Create morphing architectural forms
+  const formGroup = new THREE.Group();
+  scene.add(formGroup);
+
+  // Create base grid
+  const gridSize = 30;
+  const gridDivisions = 30;
+  const gridGeometry = new THREE.PlaneGeometry(gridSize, gridSize, gridDivisions, gridDivisions);
+  const gridMaterial = new THREE.MeshBasicMaterial({
+    color: currentColors.bronze,
+    wireframe: true,
+    transparent: true,
+    opacity: currentColors.opacity * 0.3
+  });
+  const grid = new THREE.Mesh(gridGeometry, gridMaterial);
+  grid.rotation.x = -Math.PI / 2;
+  formGroup.add(grid);
+
+  // Create architectural elements
+  function createArchitecturalElement(type: ArchitecturalElementType) {
+    const group = new THREE.Group();
+    let geometry: THREE.BufferGeometry;
+    
+    switch(type) {
+      case 'column':
+        geometry = new THREE.CylinderGeometry(0.2, 0.2, 3, 8);
+        break;
+      case 'arch':
+        geometry = new THREE.TorusGeometry(1, 0.1, 8, 32, Math.PI);
+        break;
+      case 'beam':
+        geometry = new THREE.BoxGeometry(3, 0.2, 0.2);
+        break;
+      case 'roof':
+        geometry = new THREE.ConeGeometry(2, 2, 4);
+        break;
+      case 'wall':
+        geometry = new THREE.BoxGeometry(4, 3, 0.1);
+        break;
+      case 'window':
+        geometry = new THREE.BoxGeometry(1, 1.5, 0.1);
+        break;
+      case 'door':
+        geometry = new THREE.BoxGeometry(1, 2, 0.1);
+        break;
+      case 'dome':
+        geometry = new THREE.SphereGeometry(1.5, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2);
+        break;
+      case 'stairs':
+        const stairsGroup = new THREE.Group();
+        for (let i = 0; i < 5; i++) {
+          const step = new THREE.BoxGeometry(2, 0.2, 0.4);
+          const stepMesh = new THREE.Mesh(step, new THREE.MeshBasicMaterial({
+            color: currentColors.lightBronze,
+            wireframe: true,
+            transparent: true,
+            opacity: currentColors.opacity * 0.4
+          }));
+          stepMesh.position.set(0, i * 0.3, i * 0.3);
+          stairsGroup.add(stepMesh);
+        }
+        return stairsGroup;
+      case 'balcony':
+        const balconyGroup = new THREE.Group();
+        const floor = new THREE.BoxGeometry(3, 0.1, 1.5);
+        const railing = new THREE.BoxGeometry(3, 1, 0.1);
+        const floorMesh = new THREE.Mesh(floor, new THREE.MeshBasicMaterial({
+          color: currentColors.lightBronze,
+          wireframe: true,
+          transparent: true,
+          opacity: currentColors.opacity * 0.4
+        }));
+        const railingMesh = new THREE.Mesh(railing, new THREE.MeshBasicMaterial({
+          color: currentColors.darkBronze,
+          wireframe: true,
+          transparent: true,
+          opacity: currentColors.opacity * 0.6
+        }));
+        railingMesh.position.y = 0.5;
+        balconyGroup.add(floorMesh, railingMesh);
+        return balconyGroup;
+      case 'fence':
+        const fenceGroup = new THREE.Group();
+        for (let i = 0; i < 5; i++) {
+          const post = new THREE.BoxGeometry(0.1, 1, 0.1);
+          const postMesh = new THREE.Mesh(post, new THREE.MeshBasicMaterial({
+            color: currentColors.darkBronze,
+            wireframe: true,
+            transparent: true,
+            opacity: currentColors.opacity * 0.6
+          }));
+          postMesh.position.x = i * 0.8;
+          fenceGroup.add(postMesh);
+        }
+        const rail = new THREE.BoxGeometry(4, 0.1, 0.1);
+        const railMesh = new THREE.Mesh(rail, new THREE.MeshBasicMaterial({
+          color: currentColors.lightBronze,
+          wireframe: true,
+          transparent: true,
+          opacity: currentColors.opacity * 0.4
+        }));
+        railMesh.position.y = 0.5;
+        fenceGroup.add(railMesh);
+        return fenceGroup;
+      case 'garden':
+        const gardenGroup = new THREE.Group();
+        for (let i = 0; i < 10; i++) {
+          const tree = new THREE.ConeGeometry(0.3, 1, 8);
+          const trunk = new THREE.CylinderGeometry(0.1, 0.1, 0.5, 8);
+          const treeMesh = new THREE.Mesh(tree, new THREE.MeshBasicMaterial({
+            color: currentColors.lightBronze,
+            wireframe: true,
+            transparent: true,
+            opacity: currentColors.opacity * 0.4
+          }));
+          const trunkMesh = new THREE.Mesh(trunk, new THREE.MeshBasicMaterial({
+            color: currentColors.darkBronze,
+            wireframe: true,
+            transparent: true,
+            opacity: currentColors.opacity * 0.6
+          }));
+          treeMesh.position.set(
+            (Math.random() - 0.5) * 8,
+            0.75,
+            (Math.random() - 0.5) * 8
+          );
+          trunkMesh.position.copy(treeMesh.position);
+          trunkMesh.position.y = 0.25;
+          gardenGroup.add(treeMesh, trunkMesh);
+        }
+        return gardenGroup;
+      case 'pool':
+        const poolGroup = new THREE.Group();
+        const pool = new THREE.BoxGeometry(4, 0.2, 2);
+        const poolMesh = new THREE.Mesh(pool, new THREE.MeshBasicMaterial({
+          color: currentColors.lightBronze,
+          wireframe: true,
+          transparent: true,
+          opacity: currentColors.opacity * 0.3
+        }));
+        poolGroup.add(poolMesh);
+        return poolGroup;
+      case 'bridge':
+        const bridgeGroup = new THREE.Group();
+        const deck = new THREE.BoxGeometry(5, 0.2, 1.5);
+        const support = new THREE.BoxGeometry(0.2, 2, 0.2);
+        const deckMesh = new THREE.Mesh(deck, new THREE.MeshBasicMaterial({
+          color: currentColors.lightBronze,
+          wireframe: true,
+          transparent: true,
+          opacity: currentColors.opacity * 0.4
+        }));
+        const supportMesh = new THREE.Mesh(support, new THREE.MeshBasicMaterial({
+          color: currentColors.darkBronze,
+          wireframe: true,
+          transparent: true,
+          opacity: currentColors.opacity * 0.6
+        }));
+        supportMesh.position.y = -1;
+        bridgeGroup.add(deckMesh, supportMesh);
+        return bridgeGroup;
+      case 'tower':
+        const towerGroup = new THREE.Group();
+        const base = new THREE.CylinderGeometry(1, 1.2, 4, 8);
+        const spire = new THREE.ConeGeometry(0.5, 2, 8);
+        const baseMesh = new THREE.Mesh(base, new THREE.MeshBasicMaterial({
+          color: currentColors.lightBronze,
+          wireframe: true,
+          transparent: true,
+          opacity: currentColors.opacity * 0.4
+        }));
+        const spireMesh = new THREE.Mesh(spire, new THREE.MeshBasicMaterial({
+          color: currentColors.darkBronze,
+          wireframe: true,
+          transparent: true,
+          opacity: currentColors.opacity * 0.6
+        }));
+        spireMesh.position.y = 3;
+        towerGroup.add(baseMesh, spireMesh);
+        return towerGroup;
+    }
+
+    const material = new THREE.MeshBasicMaterial({
+      color: currentColors.lightBronze,
+      wireframe: true,
+      transparent: true,
+      opacity: currentColors.opacity * 0.4
+    });
+
+    const mesh = new THREE.Mesh(geometry, material);
+    group.add(mesh);
+
+    // Add decorative elements based on type
+    if (isDecorativeElement(type)) {
+      const decorGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+      const decorMaterial = new THREE.MeshBasicMaterial({
+        color: currentColors.darkBronze,
+        wireframe: true,
+        transparent: true,
+        opacity: currentColors.opacity * 0.6
+      });
+
+      const decor = new THREE.Mesh(decorGeometry, decorMaterial);
+      let decorY = 1;
+      switch(type) {
+        case 'column':
+          decorY = 1.5;
+          break;
+        case 'dome':
+          decorY = 1.5;
+          break;
+        case 'tower':
+          decorY = 5;
+          break;
+        case 'roof':
+          decorY = 1;
+          break;
+      }
+      decor.position.y = decorY;
+      group.add(decor);
+    }
+
+    return group;
+  }
+
+  // Create more elements for better coverage
+  const elementTypes: ArchitecturalElementType[] = [
+    'column', 'arch', 'beam', 'roof', 'wall', 'window', 'door', 'dome', 'stairs', 
+    'balcony', 'fence', 'garden', 'pool', 'bridge', 'tower'
+  ];
+
+  // Create more elements
+  const totalElements = 50; // Increased from previous amount
+  const houseElements: THREE.Group[] = [];
+  
+  for (let i = 0; i < totalElements; i++) {
+    const type = elementTypes[Math.floor(Math.random() * elementTypes.length)];
+    const element = createArchitecturalElement(type);
+    
+    // Position elements in a wider area
+    element.position.set(
+      (Math.random() - 0.5) * 40, // Increased spread
+      (Math.random() - 0.5) * 20,
+      (Math.random() - 0.5) * 40
+    );
+    
+    // Random rotation
+    element.rotation.set(
+      Math.random() * Math.PI,
+      Math.random() * Math.PI,
+      Math.random() * Math.PI
+    );
+    
+    // Random scale
+    const scale = 0.5 + Math.random() * 1.5;
+    element.scale.set(scale, scale, scale);
+    
+    houseElements.push(element);
+    formGroup.add(element);
+  }
+
+  // Create floating particles
+  const particleCount = 300;
+  const particleGeometry = new THREE.BufferGeometry();
+  const particlePositions = new Float32Array(particleCount * 3);
+  const particleSizes = new Float32Array(particleCount);
+
+  for(let i = 0; i < particleCount; i++) {
+    particlePositions[i * 3] = (Math.random() - 0.5) * 30;
+    particlePositions[i * 3 + 1] = (Math.random() - 0.5) * 20;
+    particlePositions[i * 3 + 2] = (Math.random() - 0.5) * 30;
+    particleSizes[i] = Math.random() * 0.5;
+  }
+
+  particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+  particleGeometry.setAttribute('size', new THREE.BufferAttribute(particleSizes, 1));
+
+  const particleMaterial = new THREE.PointsMaterial({
+    color: currentColors.bronze,
+    size: 0.1,
+    transparent: true,
+    opacity: currentColors.opacity * 0.6,
+    sizeAttenuation: true
+  });
+
+  const particles = new THREE.Points(particleGeometry, particleMaterial);
+  formGroup.add(particles);
+
+  // Position camera
+  camera.position.z = 25;
+  camera.position.y = 10;
+  camera.lookAt(0, 0, 0);
+
+  // Animation variables
+  let time = 0;
+  const startTime = Date.now();
+  
+  // Store initial positions for elements
+  const initialPositions = houseElements.map(element => ({
+    position: element.position.clone(),
+    rotation: element.rotation.clone(),
+    targetPosition: new THREE.Vector3(
+      (Math.random() - 0.5) * 40,
+      (Math.random() - 0.5) * 20,
+      (Math.random() - 0.5) * 40
+    ),
+    targetRotation: new THREE.Euler(
+      Math.random() * Math.PI,
+      Math.random() * Math.PI,
+      Math.random() * Math.PI
+    )
+  }));
+
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate);
+    
+    const currentTime = Date.now();
+    const elapsedTime = currentTime - startTime;
+    time += 0.01;
+
+    // Morph grid with more dramatic movement
+    const positions = gridGeometry.attributes.position.array;
+    for(let i = 0; i < positions.length; i += 3) {
+      const x = positions[i];
+      const z = positions[i + 2];
+      positions[i + 1] = Math.sin(x * 0.3 + time) * Math.cos(z * 0.3 + time) * 3;
+    }
+    gridGeometry.attributes.position.needsUpdate = true;
+
+    // Animate elements with more varied movement
+    houseElements.forEach((element, index) => {
+      const pos = initialPositions[index];
+      
+      // Floating phase with more varied movement
+      const speed = 0.1 + index * 0.02;
+      const amplitude = 0.5 + Math.sin(index) * 0.3;
+      
+      element.position.lerp(pos.targetPosition, 0.01);
+      element.rotation.x = Math.sin(time * speed) * amplitude;
+      element.rotation.y = Math.cos(time * speed) * amplitude;
+      element.rotation.z = Math.sin(time * speed * 0.5) * amplitude * 0.5;
+      element.position.y += Math.sin(time * speed + index) * 0.005;
+      element.position.x += Math.cos(time * speed * 0.7 + index) * 0.005;
+      element.position.z += Math.sin(time * speed * 0.3 + index) * 0.005;
+
+      // Periodically update target position for more dynamic movement
+      if (Math.random() < 0.001) {
+        pos.targetPosition.set(
+          (Math.random() - 0.5) * 40,
+          (Math.random() - 0.5) * 20,
+          (Math.random() - 0.5) * 40
+        );
+      }
+    });
+
+    // Animate particles
+    const particlePositions = particleGeometry.attributes.position.array;
+    for(let i = 0; i < particleCount; i++) {
+      const i3 = i * 3;
+      particlePositions[i3 + 1] += Math.sin(time + i) * 0.02;
+      
+      if(Math.abs(particlePositions[i3 + 1]) > 10) {
+        particlePositions[i3 + 1] = -particlePositions[i3 + 1] * 0.9;
+      }
+    }
+    particleGeometry.attributes.position.needsUpdate = true;
+
+    // Rotate entire form group
+    formGroup.rotation.y = time * 0.1;
+    formGroup.rotation.x = Math.sin(time * 0.2) * 0.1;
+
+    renderer.render(scene, camera);
+  }
+
+  animate();
+</script>
+
+<style>
+  #background-animation {
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  #background-animation canvas {
+    width: 100%;
+    height: 100%;
+  }
+</style> 

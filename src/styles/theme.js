@@ -7,7 +7,7 @@ const colors = {
   primary: '#1F2A44', // Midnight Blue
   secondary: '#A9A9A9', // Pewter Grey
   accent: '#C9A28C', // Clay Rose
-  light: '#F5F3EF', // Warm Sand
+  light: '#E5E0D8', // Darker Warm Gray (was #F5F3EF Warm Sand)
   bronze: '#A38C5E', // Brushed Bronze
   
   // Extended color palette

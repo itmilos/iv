@@ -1,4 +1,6 @@
 ---
+import BackgroundAnimation from './BackgroundAnimation.astro';
+
 interface Props {
   title?: string;
   subtitle?: string;
@@ -9,11 +11,12 @@ const {
   subtitle = "IV+ Design Studio - Tailored residential and commercial design" 
 } = Astro.props;
 ---
+<BackgroundAnimation />
 
 <section class="relative h-screen flex items-center justify-center overflow-hidden">
   <!-- Background with Color Gradient -->
   <div class="absolute inset-0 z-0">
-    <div class="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary z-10"></div>
+    <div class="absolute inset-0 bg-gradient-to-br from-primary via-primary/90 to-primary z-10 opacity-70"></div>
     <div class="absolute inset-0 bg-bronze/5 z-20 mix-blend-overlay"></div>
     
     <!-- Decorative geometric elements -->
